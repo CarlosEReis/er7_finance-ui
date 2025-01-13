@@ -10,7 +10,7 @@ export class DashboarService {
 
   constructor() { }
 
-  listar(): Observable<Transaction[]> {
+  getTransactions(): Observable<Transaction[]> {
     return of([
       {
         id: 44,
