@@ -2,20 +2,51 @@
 @import "primeng/resources/themes/aura-dark-lime/theme.css";
 @import "primeng/resources/primeng.css";
 @import "primeflex/primeflex.css";
+@import "primeicons/primeicons.css";
 
 :root {
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-    margin: 0;
-    min-width: 320px;
-    min-height: 100vh;
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 h1 {
-    margin-top: 0;
+  margin-top: 0;
+}
+
+html {
+  font-size: 14px;
+}
+
+#investiment>div:nth-child(1) {
+  background: rgba(59, 130, 246, 0.16) !important;
+  color: #3b82f6 !important;
+  border-left: 4px solid;
+  border-radius: 0 1rem 1rem 0;
+}
+
+#deposit>div:nth-child(1) {
+  background: color-mix(in srgb, var(--primary-500), transparent 80%) !important;
+  color: var(--primary-300) !important;
+  border-left: 4px solid var(--primary-color);
+  border-radius: 0 1rem 1rem 0;
+}
+
+#expense>div:nth-child(1) {
+  background: rgba(239, 68, 68, 0.16) !important;
+  color: #ef4444 !important;
+  border-left: 4px solid #ef4444;
+  border-radius: 0 1rem 1rem 0;
+}
+
+#saldo>div:nth-child(1)>div:nth-child(1) {
+  border-left: 4px solid var(--primary-color);
+  padding: 0;
 }
