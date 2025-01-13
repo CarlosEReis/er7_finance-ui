@@ -1,0 +1,150 @@
+<div class="w-full px-7 py-3">
+
+  <div class="grid nested-grid">
+    <div class="col-8">
+      <div class="grid">
+
+        <p-card class="col-12 border-round-sm" id="saldo">
+          <div class="grid grid-nogutter surface-section text-800">
+            <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center">
+              <section>
+                <span class="block text-4xl font-bold mb-1">Saldo</span>
+                <div class="text-6xl text-primary font-bold mb-3">R$ {{ 3731.17 }}</div>
+                <p class="my-0 text-700 line-height-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                  eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              </section>
+            </div>
+            <div class="col-12 md:col-6 overflow-hidden border-round-right-2xl">
+              <div class="md:ml-auto block md:h-full bg-primary"
+                style="clip-path: polygon(8% 0, 100% 0%, 100% 100%, 0 100%)"></div>
+            </div>
+          </div>
+        </p-card>
+
+        <div class="col-4">
+          <app-kpi-card [valor]="7889.85" [porcentagem]="1" [transactionType]="TransactionType.INVESTMENT"></app-kpi-card>
+        </div>
+
+        <div class="col-4">
+          <app-kpi-card [valor]="7889.85" [porcentagem]="1" [transactionType]="TransactionType.DEPOSIT"></app-kpi-card>
+        </div>
+
+        <div class="col-4">
+          <app-kpi-card [valor]="8000" [porcentagem]="1" [transactionType]="TransactionType.EXPENSE"></app-kpi-card>
+        </div>
+
+        <div class="col-6">
+          <div class="text-center border-round-sm font-bold">
+            <p-card class="card h-full" header="Porcentagem de transações por Categoria">
+
+              <div class="card flex justify-content-center">
+                <div class="col-7">
+                  <p-chart type="doughnut" [data]="data" [options]="options" />
+                  <div class="flex justify-content-center mt-4 gap-6">
+                    <div class="flex flex-column">
+                      <div
+                        class="w-2rem h-2rem font-bold p-tag p-tag-info flex align-items-center justify-content-center p-2 border-round ">
+                        <i class="pi pi-chart-line p-2" style="font-size: 1.2rem"></i>
+                      </div>
+                      <p class="flex align-items-center justify-content-center border-round pt-2">20%</p>
+                    </div>
+                    <div class="flex flex-column">
+                      <div
+                        class="w-2rem h-2rem font-bold p-tag flex align-items-center justify-content-center p-2 border-round">
+                        <i class="pi pi-arrow-up-right p-2" style="font-size: 1.2rem"></i>
+                      </div>
+                      <p class="flex align-items-center justify-content-center border-round pt-2">70%</p>
+                    </div>
+                    <div class="flex flex-column">
+                      <div
+                        class="w-2rem h-2rem font-bold p-tag p-tag-danger flex align-items-center justify-content-center p-2 border-round">
+                        <i class="pi pi-arrow-down-right p-2" style="font-size: 1.2rem"></i>
+                      </div>
+                      <p class="flex align-items-center justify-content-center border-round pt-2">10%</p>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+            </p-card>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="text-center border-round-sm font-bold">
+            <p-card class="card h-full" header="Porcentagem de transações por Categoria">
+
+              <div class="card flex justify-content-center">
+
+                <div class="col-12">
+                  <div class="card">
+
+                    <ul class="list-none p-0 m-0" *ngFor="let category of transactionsByCaytegory">
+
+                      <li class="">
+                        <div class="flex justify-content-between w-full">
+                          <p class="text-sm font-bold mb-1">{{ category.category }}</p>
+                          <p class="text-sm font-bold mb-1">{{ category.percent + ' %'}}</p>
+                        </div>
+                        <div>
+                          <p-progressBar class="" value="{{ category.percent }}" />
+                          <p class="flex align-items-start text-sm font-light text-300 mt-1">{{ 'R$ ' + category.total
+                            }}</p>
+                        </div>
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+
+            </p-card>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="text-center  border-round-sm h-full font-bold">
+
+        <p-card class="card h-full" header="Últimas transações">
+
+          <div class="card flex justify-content-center">
+
+            <div class="col-12">
+              <div class="card">
+
+                <ul class="list-none p-0 m-0" *ngFor="let transaction of trasanctions.slice(0,10)">
+
+                  <li class="flex align-items-center p-3 border-bottom-1 surface-border">
+                    <div
+                      class="w-2rem h-2rem font-bold p-tag flex align-items-center justify-content-center p-2 border-round mr-3"
+                      [ngClass]="getStyleClass(transaction.type)"
+                      pTooltip="{{ getLabel(transaction.paymentMethod.name) }}">
+                      <i class="pi p-2" [ngClass]="getIcons(transaction.paymentMethod.name)"
+                        style="font-size: 1.2rem"></i>
+                    </div>
+
+                    <div class="flex flex-column align-items-start">
+                      <span class="text-lg mb-1"> {{ transaction.name }} </span>
+                      <span class="text-sm font-light text-300">05/23/2022</span>
+                    </div>
+                    <span class="ml-auto" [ngClass]="getStyleClass(transaction.type)">R$ {{ transaction.amount }}</span>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+
+          </div>
+
+        </p-card>
+
+      </div>
+    </div>
+  </div>
+
+</div>
