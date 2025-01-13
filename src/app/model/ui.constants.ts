@@ -1,24 +1,25 @@
 import { TransactionPaymentMethod } from "./payment-method.enum";
+import { TransactionCategory } from "./transaction-category.enum";
 import { TransactionType } from "./transaction-type.enum";
 
 export const TRANSACTION_TYPE_OPTION = [
   {
-    value: TransactionType.DEPOSIT, 
-    label:'Depósito',
+    value: TransactionType.DEPOSIT,
+    label: 'Depósito',
     icon: 'pi-arrow-up-right',
     tagType: 'p-tag-success text-primary',
     color: 'green'
   },
   {
-    value: TransactionType.EXPENSE, 
-    label:'Despesa',
+    value: TransactionType.EXPENSE,
+    label: 'Despesa',
     icon: 'pi-arrow-down-right',
     tagType: 'p-tag-danger',
     color: 'red'
   },
   {
-    value: TransactionType.INVESTMENT, 
-    label:'Investimento',
+    value: TransactionType.INVESTMENT,
+    label: 'Investimento',
     icon: 'pi-chart-line',
     tagType: 'p-tag-info',
     color: 'blue'
@@ -67,3 +68,42 @@ export const PAYMENT_METHOD_OPTIONS = [
     icon: 'pi-barcode'
   }
 ];
+
+export const TRANSACTION_CATEGORY = [
+  {
+    value: TransactionCategory.HOUSING,
+    label: 'Moradia'
+  },
+  {
+    value: TransactionCategory.TRANSPORTATION,
+    label: 'Trânporte'
+  },
+  {
+    value: TransactionCategory.FOOD,
+    label: 'Alimetação'
+  },
+  {
+    value: TransactionCategory.ENTERTAINMENT,
+    label: 'Entreterimento'
+  },
+  {
+    value: TransactionCategory.HEALTH,
+    label: 'Saúde'
+  },
+  {
+    value: TransactionCategory.UTILITY,
+    label: 'Utilidades'
+  },
+  {
+    value: TransactionCategory.SALARY,
+    label: 'Salário'
+  },
+  {
+    value: TransactionCategory.EDUCATION,
+    label: 'Educação'
+  },
+  {
+    value: TransactionCategory.OTHER,
+    label: 'Outros'
+  }
+]
