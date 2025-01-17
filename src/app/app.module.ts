@@ -12,6 +12,7 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuModule } from 'primeng/menu'
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
+import { provideAuth0 } from '@auth0/auth0-angular';
 
 registerLocaleData(localePt);
 @NgModule({
@@ -31,7 +32,14 @@ registerLocaleData(localePt);
     AvatarModule
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'pt-BR' }
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    provideAuth0({
+      domain: 'er7dev.us.auth0.com',
+      clientId: 'AVqmAwL7ZfcZNenxkL9NiZuyLAtf6mDR',
+      authorizationParams: {
+        redirect_uri: window.location.origin
+      }
+    }),
   ],
   bootstrap: [AppComponent]
 })

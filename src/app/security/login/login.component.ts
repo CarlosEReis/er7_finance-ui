@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-login',
@@ -7,7 +9,20 @@ import { Component } from '@angular/core';
 })
 export class LoginComponent {
 
+  constructor(
+    private router: Router,
+    private auth: AuthService) {}
+
   logar() {
-    alert('TODO: Realizar a integração de login...')
+    this.auth.loginWithPopup().subscribe({
+      next: (res) => {
+        console.log(res);
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
+
 }
