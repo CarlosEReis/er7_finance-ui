@@ -3,8 +3,10 @@ import { Transaction } from '../../model/transaction.model';
 import { TransactionsService } from '../transactions.service';
 import { TransactionType } from '../../model/transaction-type.enum';
 import { TransactionPaymentMethod } from '../../model/payment-method.enum';
-import { PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY } from '../../model/ui.constants';
+import { PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY, TRANSACTION_TYPE_OPTION } from '../../model/ui.constants';
 import { TransactionCategory } from '../../model/transaction-category.enum';
+import { ConfirmationService, MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-transactions-list',
@@ -14,14 +16,18 @@ import { TransactionCategory } from '../../model/transaction-category.enum';
 export class TransactionsListComponent implements OnInit {
 
   trasanctions!: Transaction[];
+  dialogVisible = false;
 
-  constructor(private transactionsService: TransactionsService) { }
+  constructor(
+    private transactionsService: TransactionsService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService) { }
 
   ngOnInit(): void {
     this.getTransactionService();
   }
 
-  getTransactionService() {
+  private getTransactionService(): void {
     this.transactionsService.getTransactions().subscribe({
       next: (trasanctions) => {
         this.trasanctions = trasanctions
@@ -30,7 +36,19 @@ export class TransactionsListComponent implements OnInit {
     })
   }
 
-  getIcon(paymentMethod: TransactionPaymentMethod): string | undefined{
+  newTransaction() {
+    this.dialogVisible = true;
+  }
+
+  editTransaction(id: number) {
+    this.dialogVisible = true;
+  }
+
+  closedDialogNewTransaction(event: any) {
+    this.dialogVisible = false;
+  }
+
+  getIcon(paymentMethod: TransactionPaymentMethod): string | undefined {
     return PAYMENT_METHOD_OPTIONS.find(method => method.value === paymentMethod)?.icon;
   }
 
@@ -40,6 +58,23 @@ export class TransactionsListComponent implements OnInit {
 
   getLabelTransactioinCategory(category: TransactionCategory): string | undefined {
     return TRANSACTION_CATEGORY.find(cat => cat.value == category)?.label;
+  }
+
+  getLabelTransactionType(transactionType: TransactionType): string | undefined {
+    return TRANSACTION_TYPE_OPTION.find(type => type.value == transactionType)?.label.toLocaleUpperCase();
+  }
+
+  deleteTransaction() {
+
+      this.confirmationService.confirm({
+        header: 'Tem Certeza?',
+        message: 'Tem certeza que deseja excluir esta transação de ID XXX, do tipo DEPÓSITO?',
+        accept: () => {
+          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Transação removida com sucesso.', life: 3000 });
+        },
+        reject: () => {}
+      });
+   
   }
 
   getTipo(status: string) {
