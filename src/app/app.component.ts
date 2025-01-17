@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '@auth0/auth0-angular';
 import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
 
 @Component({
@@ -17,6 +18,7 @@ export class AppComponent {
   activeItem: MenuItem = [];
 
   constructor(
+    public auth: AuthService,
     private router: Router) {}
 
   ngOnInit(): void {
@@ -29,13 +31,12 @@ export class AppComponent {
     return [
       { label: 'Dashboard', icon: 'pi pi-chart-bar', command: () => this.router.navigate(['./dashboard']) },
       { label: 'Transações', icon: 'pi pi-list', command: () => this.router.navigate(['./transactions']) },
-      { label: 'Assinatura', icon: 'pi pi-credit-card', command: () => this.router.navigate(['./subscription']) },
+      //{ label: 'Assinatura', icon: 'pi pi-credit-card', command: () => this.router.navigate(['./subscription']) },
     ];
   }
 
   logout() {
-    // Todo: implementar logout
-    alert('Logout')
+    this.auth.logout();
   }
   
   onActiveItemChange(event: MenuItem) {
