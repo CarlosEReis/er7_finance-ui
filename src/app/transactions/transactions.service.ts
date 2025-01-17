@@ -105,4 +105,7 @@ export class TransactionsService {
       ]);
     }
 
+    createTransaction(transaction: Transaction) {
+      console.log(transaction);
+    }
 }
