@@ -25,6 +25,16 @@ html {
   font-size: 14px;
 }
 
+.blur {
+  background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(2.5px);
+    -webkit-backdrop-filter: blur(2px);
+}
+
+.p-tag.p-tag-success {
+  color: var(--primary-color);
+}
+
 #investiment>div:nth-child(1) {
   background: rgba(59, 130, 246, 0.16) !important;
   color: #3b82f6 !important;
