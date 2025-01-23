@@ -1,7 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TransactionsService } from '../transactions.service';
 import { MessageService } from 'primeng/api';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Transaction } from '../../model/transaction.model';
+import { TransactionsEventService } from '../transactions-event.service';
 
 @Component({
   selector: 'app-transaction-form',
@@ -10,38 +13,48 @@ import { MessageService } from 'primeng/api';
 })
 export class TransactionFormComponent implements OnInit {
 
-  date: Date | undefined;
-  formTrasaction!: FormGroup;
-  @Input() estado!: 'NEW' | 'EDIT';
   title!: string;
-  @Input() dialogVisible: boolean = false;
-  @Output() dialogState = new EventEmitter<boolean>();
+  date: Date | undefined;
+  isEdit: boolean = false;
+  formTrasaction!: FormGroup;
+  dialogVisible: boolean = false;
 
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private formBuilder: FormBuilder,
+    private messageService: MessageService,
     private transactionsService: TransactionsService,
-    private formBuilder: FormBuilder
+    private transactionEvent: TransactionsEventService
   ) { }
 
   ngOnInit(): void {
+    this.dialogVisible = true;
+    const id = this.route.snapshot.params['id']    
+    if (id) {
+      this.isEdit = true;
+      this.title = 'Editando Transação ' + id ;
+      this.loadingTransactionById(id)
+    } else {
+      this.title = 'Adicionar Transação'
+    } 
+
     this.formTrasaction = this.getTransactionForm();
-  }
-
-  transactionForm(state: string) {
-
   }
 
   getTransactionForm(): FormGroup {
     return this.formBuilder.group({
-      name: [''],
-      type: [''],
-      amount: [''],
+      id: [''],
+      name: ['', Validators.required],
+      type: ['', Validators.required],
+      amount: [0, [Validators.required, Validators.min(1)]],
       category: this.formBuilder.group({
-        id: [''],
+        id: ['', Validators.required],
       }),
       paymentMethod: this.formBuilder.group({
-        id: [''],
+        id: ['', Validators.required],
       }),
-      date: [''],
+      date: [this.date, Validators.required],
     });
   }
 
@@ -79,11 +92,58 @@ export class TransactionFormComponent implements OnInit {
     ];
   }
 
-  cadastrar(){
-    this.transactionsService.createTransaction(this.formTrasaction.value);
+  save(){
+    if(this.isEdit) {
+      this.OnUpdate();
+    } else {
+      this.onCreate();
+    }
+    this.router.navigate(['transactions'])
   }
 
-  closeDialog() {
-    this.dialogState.emit(!this.dialogVisible);
+  close() {
+    this.formTrasaction.reset();
+    this.router.navigate(['transactions'])
+  }
+
+  private onCreate() {
+    this.transactionsService.createTransaction(this.formTrasaction.value).subscribe({
+      next: transaction => {
+        this.onSuccess('Transação atualizada com sucesso')
+        this.transactionEvent.createEvent.next(transaction)
+      },
+      error: err => () => this.onError('Não foi possível criar a transaction')
+    });
+  }
+
+  private OnUpdate() {
+    const id = this.formTrasaction.get('id')?.value;
+    this.transactionsService.updateTransaction(id,this.formTrasaction.value).subscribe({
+      next: transaction => {
+        this.onSuccess('Transação atualizada com sucesso')
+        this.transactionEvent.updateEvent.next(transaction)
+      },
+      error: () => this.onError('Não foi possível atualizar a transaction: ' + id)
+    });
+  }
+  
+  private loadingTransactionById(id: number) {
+    this.transactionsService.getTransactionById(id)
+    .subscribe({
+      next: (transaction: Transaction) => {
+        this.formTrasaction.patchValue(transaction)
+        this.date = new Date(transaction.date)
+      },
+      error: err => this.onError('Não foi possível carregar a transação de ID ' + id)
+    })
+  }
+
+  private onSuccess(message: string): void {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: message })
+  }
+
+  private onError(message: string): void{
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: message })
   }
 }
+
