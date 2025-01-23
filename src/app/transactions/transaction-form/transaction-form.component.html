@@ -4,7 +4,7 @@
             [breakpoints]="{ '699px': '75vw', '875px': '90vw' }" [style]="{ width: '30vw' }" [draggable]="false">
             <ng-template pTemplate="header">
                 <div class=" align-items-center justify-content-center gap-2">
-                    <h3 class="text-3xl my-2  ">Adicionar Transação</h3>
+                    <h3 class="text-3xl my-2">{{ title }}</h3>
                     <span class="p-text-secondary block ">Insira as informações abaixo.</span>
                 </div>
             </ng-template>
@@ -40,20 +40,19 @@
                         optionLabel="name" optionValue="code" placeholder="Selecione o Método de Pagamento" />
                 </div>
 
-
                 <div class="field">
                     <label for="data">Data</label>
                     <p-calendar formControlName="date" class="p-fluid surface-overlay" id="data" appendTo="body"
-                        [(ngModel)]="date" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="Data da Transação"
+                        [(ngModel)]="date" formControlName="date" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="Data da Transação"
                         inputId="buttondisplay" />
                 </div>
             </div>
 
             <ng-template pTemplate="footer">
                 <p-button label="Cancelar" [outlined]="true"
-                    (onClick)="closeDialog()" />
-                <p-button label="Adicioinar" class="btn-primary"
-                    (onClick)="closeDialog(); cadastrar()" />
+                    (onClick)="close()" />
+                <p-button label="{{ isEdit ? 'Atualizar': 'Adicioinar' }}" class="btn-primary"
+                    (onClick)="save()" [disabled]="formTrasaction.invalid"/>
             </ng-template>
         </p-dialog>
     </div>
