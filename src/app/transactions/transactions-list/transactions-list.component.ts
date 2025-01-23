@@ -6,6 +6,8 @@ import { TransactionPaymentMethod } from '../../model/payment-method.enum';
 import { PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY, TRANSACTION_TYPE_OPTION } from '../../model/ui.constants';
 import { TransactionCategory } from '../../model/transaction-category.enum';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ActivatedRoute, Route, Router } from '@angular/router';
+import { TransactionsEventService } from '../transactions-event.service';
 
 
 @Component({
@@ -16,15 +18,24 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 export class TransactionsListComponent implements OnInit {
 
   trasanctions!: Transaction[];
-  dialogVisible = false;
 
   constructor(
     private transactionsService: TransactionsService,
     private confirmationService: ConfirmationService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private eventService: TransactionsEventService
+  ) { }
 
   ngOnInit(): void {
     this.getTransactionService();
+    this.eventService.createEvent.subscribe((data) => {
+      this.getTransactionService();
+    });
+    this.eventService.updateEvent.subscribe((data) => {
+      this.getTransactionService();
+    });
   }
 
   private getTransactionService(): void {
@@ -37,15 +48,15 @@ export class TransactionsListComponent implements OnInit {
   }
 
   newTransaction() {
-    this.dialogVisible = true;
+    this.router.navigate(['new'], { relativeTo: this.route })
   }
 
   editTransaction(id: number) {
-    this.dialogVisible = true;
+    this.router.navigate(['edit', id], { relativeTo: this.route })
   }
 
   closedDialogNewTransaction(event: any) {
-    this.dialogVisible = false;
+    this.router.navigate(['/'], { relativeTo: this.route })
   }
 
   getIcon(paymentMethod: TransactionPaymentMethod): string | undefined {
@@ -64,17 +75,28 @@ export class TransactionsListComponent implements OnInit {
     return TRANSACTION_TYPE_OPTION.find(type => type.value == transactionType)?.label.toLocaleUpperCase();
   }
 
-  deleteTransaction() {
+  deleteTransaction(transaction: Transaction) {
+    this.confirmationService.confirm({
+      header: 'Tem Certeza?',
+      message: `Tem certeza que deseja excluir esta transação de ID ${transaction.id}, do tipo ${this.getLabelTransactionType(transaction.type)?.toUpperCase()}?`,
+      accept: () => {
+        this.transactionsService.deleteTransaction(transaction.id).subscribe({
+          next: () => {
+            this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Transação removida com sucesso.', life: 3000 })
+            this.transactionsService.getTransactions().subscribe({
+              next: (trasanctions) => {
+                this.trasanctions = trasanctions
+              },
+              error: (err) => console.log(err),
+            })
+          },
+          error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Não foi possível remover a transação' })
+        })
 
-      this.confirmationService.confirm({
-        header: 'Tem Certeza?',
-        message: 'Tem certeza que deseja excluir esta transação de ID XXX, do tipo DEPÓSITO?',
-        accept: () => {
-          this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Transação removida com sucesso.', life: 3000 });
-        },
-        reject: () => {}
-      });
-   
+      },
+      reject: () => { }
+    });
+
   }
 
   getTipo(status: string) {
@@ -101,5 +123,13 @@ export class TransactionsListComponent implements OnInit {
       default:
         return 'info';
     }
+  }
+
+  create(any: any) {
+    console.log("EVENTO CRIACAO")
+  }
+
+  update(any: any) {
+    console.log("EVENTO ATUALIZACAO")
   }
 }
