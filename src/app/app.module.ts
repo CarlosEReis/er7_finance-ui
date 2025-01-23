@@ -1,4 +1,5 @@
 import localePt from '@angular/common/locales/pt';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,7 +13,9 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuModule } from 'primeng/menu'
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
-import { provideAuth0 } from '@auth0/auth0-angular';
+import { AuthHttpInterceptor, authHttpInterceptorFn, AuthModule, provideAuth0 } from '@auth0/auth0-angular';
+
+
 
 registerLocaleData(localePt);
 @NgModule({
@@ -29,17 +32,28 @@ registerLocaleData(localePt);
     TabMenuModule,
     MenuModule,
     ButtonModule,
-    AvatarModule
-  ],
-  providers: [
-    { provide: LOCALE_ID, useValue: 'pt-BR' },
-    provideAuth0({
+    AvatarModule,
+
+    AuthModule.forRoot({
       domain: 'er7dev.us.auth0.com',
       clientId: 'AVqmAwL7ZfcZNenxkL9NiZuyLAtf6mDR',
       authorizationParams: {
+        audience: 'http://localhost:8080',
         redirect_uri: window.location.origin
-      }
+      },
+      httpInterceptor: {
+        allowedList: [
+          'http://localhost:8080/v1/transactions',
+          'http://localhost:8080/v1/transactions/*'
+        ],
+      },
     }),
+  ],
+  providers: [
+    { provide: LOCALE_ID, useValue: 'pt-BR' },
+    provideHttpClient(),
+    AuthHttpInterceptor,
+    provideHttpClient(withInterceptors([authHttpInterceptorFn])),
   ],
   bootstrap: [AppComponent]
 })

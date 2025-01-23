@@ -76,7 +76,7 @@ export const TRANSACTION_CATEGORY = [
   },
   {
     value: TransactionCategory.TRANSPORTATION,
-    label: 'Trânporte'
+    label: 'Transporte'
   },
   {
     value: TransactionCategory.FOOD,
