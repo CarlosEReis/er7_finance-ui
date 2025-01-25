@@ -4,6 +4,7 @@ import { Transaction } from '../model/transaction.model';
 import { first, Observable, of, take, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
+import { TopCategory } from '../model/top-category.model';
 
 @Injectable({
   providedIn: 'root'
@@ -33,4 +34,13 @@ export class TransactionsService {
     deleteTransaction(id: number) {
       return this.http.delete<Transaction>(`${this.URL_API}/${id}`).pipe(first())
     }
+
+    getTransactionsByTopCategory(top: number): Observable<TopCategory[]> {
+      return this.http.get<TopCategory[]>(`${this.URL_API}/statistics/total-per-category?top=${top}`).pipe(first())
+    }
+
+    getTransactionBalance() {
+      return (this.http.get<any>(`${this.URL_API}/statistics/balance`)).pipe(first())
+    }
+
 }
