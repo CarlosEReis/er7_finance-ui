@@ -14,6 +14,7 @@ import { MenuModule } from 'primeng/menu'
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
 import { AuthHttpInterceptor, authHttpInterceptorFn, AuthModule, provideAuth0 } from '@auth0/auth0-angular';
+import { environment } from '../environments/environment.development';
 
 
 
@@ -35,8 +36,8 @@ registerLocaleData(localePt);
     AvatarModule,
 
     AuthModule.forRoot({
-      domain: 'er7dev.us.auth0.com',
-      clientId: 'AVqmAwL7ZfcZNenxkL9NiZuyLAtf6mDR',
+      domain: environment.auth0.domain,
+      clientId: environment.auth0.clientId,
       authorizationParams: {
         audience: 'http://localhost:8080',
         redirect_uri: window.location.origin
