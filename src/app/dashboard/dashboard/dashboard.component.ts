@@ -58,7 +58,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTransactionsCategory() {
-    this.transactionService.getTransactionsByTopCategory(6).subscribe({
+    this.transactionService.getTransactionsByTopCategory(5).subscribe({
       next: (trasanctions) => {
         if (trasanctions.length === 0) {
           this.transactionsByCaytegory = MOCKS_TRANSACTION_CATEGORY;

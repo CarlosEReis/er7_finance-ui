@@ -57,6 +57,6 @@ html {
 }
 
 #saldo>div:nth-child(1)>div:nth-child(1) {
-  border-left: 4px solid var(--primary-color);
+  border-left: .5rem solid #a3e635a3;
   padding: 0;
 }
