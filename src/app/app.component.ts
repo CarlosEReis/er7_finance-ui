@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-import { ConfirmationService, MenuItem, MessageService } from 'primeng/api';
+import { ConfirmationService, MenuItem, Message, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +16,7 @@ export class AppComponent {
   menuItens?: MenuItem[];
   menuProfile?: MenuItem[];
   activeItem: MenuItem = [];
+  messages: Message[] = [];
 
   constructor(
     public auth: AuthService,

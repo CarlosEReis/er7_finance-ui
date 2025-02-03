@@ -29,6 +29,7 @@ export class TransactionsListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.messageService.clear('dahsboard');
     this.getTransactionService();
     this.eventService.createEvent.subscribe((data) => {
       this.getTransactionService();
@@ -43,7 +44,9 @@ export class TransactionsListComponent implements OnInit {
       next: (trasanctions) => {
         this.trasanctions = trasanctions
       },
-      error: (err) => console.log(err),
+      error: (error) => {
+        console.log(error)
+        this.onError('Não foi possível carregar as transações.')},
     })
   }
 
@@ -87,10 +90,15 @@ export class TransactionsListComponent implements OnInit {
               next: (trasanctions) => {
                 this.trasanctions = trasanctions
               },
-              error: (err) => console.log(err),
+              error: (error) => {
+                console.log(error)
+                this.onError('Não foi possível carregar as transações.')},
             })
           },
-          error: () => this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Não foi possível remover a transação' })
+          error: (error) => {
+            console.error(error)
+            this.onError('Não foi possível excluir a transação de ID ' + transaction.id)
+          }
         })
 
       },
@@ -125,11 +133,18 @@ export class TransactionsListComponent implements OnInit {
     }
   }
 
-  create(any: any) {
-    console.log("EVENTO CRIACAO")
+  private onSuccess(message: string): void {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: message })
   }
 
-  update(any: any) {
-    console.log("EVENTO ATUALIZACAO")
+  private onError(message: string): void{
+    this.messageService.clear('error');
+    this.messageService.add({ 
+      severity: 'error', 
+      summary: 'Erro no servidor remoto: ', 
+      detail: message.concat('. Tente novamente em instantes ou contate o Administrado do sistema.'), 
+      life: 50000,
+      key: 'error'
+    })
   }
 }

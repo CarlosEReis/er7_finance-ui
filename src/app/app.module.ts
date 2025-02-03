@@ -13,8 +13,11 @@ import { TabMenuModule } from 'primeng/tabmenu';
 import { MenuModule } from 'primeng/menu'
 import { ButtonModule } from 'primeng/button';
 import { AvatarModule } from 'primeng/avatar';
+import { MessagesModule } from 'primeng/messages';
+
 import { AuthHttpInterceptor, authHttpInterceptorFn, AuthModule, provideAuth0 } from '@auth0/auth0-angular';
 import { environment } from '../environments/environment.development';
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -27,6 +30,7 @@ registerLocaleData(localePt);
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    FormsModule,
 
     ToastModule,
     ToolbarModule,
@@ -34,6 +38,7 @@ registerLocaleData(localePt);
     MenuModule,
     ButtonModule,
     AvatarModule,
+    MessagesModule,
 
     AuthModule.forRoot({
       domain: environment.auth0.domain,

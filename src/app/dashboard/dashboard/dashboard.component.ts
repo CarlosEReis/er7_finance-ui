@@ -1,5 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { DashboarService } from '../dashboar.service';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY } from '../../model/ui.constants';
 import { TransactionType } from '../../model/transaction-type.enum';
 import { TransactionPaymentMethod } from '../../model/payment-method.enum';
@@ -7,6 +6,7 @@ import { TransactionsService } from '../../transactions/transactions.service';
 import { Transaction } from '../../model/transaction.model';
 import { MOCKS_TRANSACTION_CATEGORY, MOCKS_TRANSACTIONS } from '../../model/mocks-data.model';
 import { TransactionCategory } from '../../model/transaction-category.enum';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-dashboard',
@@ -28,9 +28,11 @@ export class DashboardComponent implements OnInit {
 
   constructor(
     private transactionService: TransactionsService,
+    private messageService: MessageService,
   ) {}
 
   ngOnInit(): void {
+    this.messageService.clear('dashboard');
     const documentStyle = getComputedStyle(document.documentElement);
 
     this.getBalance();
@@ -66,7 +68,10 @@ export class DashboardComponent implements OnInit {
         }
         this.transactionsByCaytegory = trasanctions
       },
-      error: (err) => console.log(err),
+      error: (err) => {
+        console.error(err)
+        this.onError('Não foi possível carregar as categorias')
+      },
     })
   }
 
@@ -92,7 +97,9 @@ export class DashboardComponent implements OnInit {
         if (this.chart && this.chart.chart) this.chart.chart.update();
         
       },
-      error: (err) => console.log(err),
+      error: (err) => {
+        console.error(err)
+        this.onError('Não foi possível carregar as transações')},
     });
   }
 
@@ -118,7 +125,9 @@ export class DashboardComponent implements OnInit {
       next: (balace) => {
         this.balance = balace
       },
-      error: (err) => console.log(err),
+      error: (err) => {
+        console.error(err),
+        this.onError('Não foi possível carregar o balanço')}
     })
   }
 
@@ -148,6 +157,20 @@ export class DashboardComponent implements OnInit {
   getTransactionCategoryLabel(categoryId: TransactionCategory): string {
     const category = TRANSACTION_CATEGORY.find(category => category.value === categoryId);
     return category ? category.label : 'Desconhecido';
+  }
+
+  private onSuccess(message: string): void {
+    this.messageService.add({ severity: 'success', summary: 'Success', detail: message })
+  }
+
+  private onError(message: string): void{
+    this.messageService.add({ 
+      severity: 'error', 
+      summary: 'Erro no servidor remoto: ', 
+      detail: message.concat('. Tente novamente em instantes ou contate o Administrado do sistema.'), 
+      life: 50000, 
+      key: 'error'
+    })
   }
 
 }

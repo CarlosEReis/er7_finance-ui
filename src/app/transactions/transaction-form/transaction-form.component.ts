@@ -112,7 +112,9 @@ export class TransactionFormComponent implements OnInit {
         this.onSuccess('Transação atualizada com sucesso')
         this.transactionEvent.createEvent.next(transaction)
       },
-      error: err => () => this.onError('Não foi possível criar a transaction')
+      error: (error) => {
+        console.error(error)
+        this.onError('Não foi possível criar a transaction')}
     });
   }
 
@@ -123,7 +125,9 @@ export class TransactionFormComponent implements OnInit {
         this.onSuccess('Transação atualizada com sucesso')
         this.transactionEvent.updateEvent.next(transaction)
       },
-      error: () => this.onError('Não foi possível atualizar a transaction: ' + id)
+      error: (error) => {
+        console.error(error);
+        this.onError('Não foi possível atualizar a transaction: ' + id)}
     });
   }
   
@@ -134,7 +138,9 @@ export class TransactionFormComponent implements OnInit {
         this.formTrasaction.patchValue(transaction)
         this.date = new Date(transaction.date)
       },
-      error: err => this.onError('Não foi possível carregar a transação de ID ' + id)
+      error: (error) => {
+        console.error(error);
+        this.onError('Não foi possível carregar a transação de ID ' + id)}
     })
   }
 
@@ -143,7 +149,13 @@ export class TransactionFormComponent implements OnInit {
   }
 
   private onError(message: string): void{
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: message })
+    this.messageService.add({ 
+      severity: 'error', 
+      summary: 'Erro no servidor remoto: ', 
+      detail: message.concat('. Tente novamente em instantes ou contate o Administrador do sistema.'), 
+      life: 50000, 
+      key: 'error'
+    })
   }
 }
 
