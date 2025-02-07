@@ -1,0 +1,127 @@
+ 
+<div class="surface-ground px-4 py-8 md:px-6 lg:px-8">
+    <div class="text-900 font-bold text-6xl mb-4 text-center text-primary">Planos de assinatura</div>
+    <div class="text-700 text-xl mb-6 text-center line-height-3">Veja os planos de assinatura abaixo e escolha o que mais atende as suas necessidades.</div>
+
+    <div class="flex flex-wrap justify-content-center gap-3">
+        <div class="col-12 lg:col-4" *ngIf="!isPremium">
+            <div class="p-3 h-full">
+                <div class="shadow-2 p-6 h-full flex flex-column surface-card" style="border-radius: 6px">
+                    <div class="flex align-items-center flex-wrap">
+                        <div class="flex text-900 font-medium text-4xl">Plano Básico</div>
+                        <p-tag *ngIf="!isPremium" class="fadeout animation-duration-1000 animation-iteration-infinite flex ml-2" value="Ativo" severity="success" [style]="{fontSize: '1rem'}">
+                            <i class="pi pi-check mr-1"></i>
+                        </p-tag>
+                    </div>
+
+                    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                    <div class="flex align-items-center">
+                        <span class="font-bold text-2xl text-900">R$ 0,00</span>
+                        <span class="ml-2 font-medium text-600">por mês</span>
+                    </div>
+
+                    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+
+                    <div class="text-600 mb-4">Descrição do plano</div>
+
+                    <ul class="list-none p-0 m-0 flex-grow-1">
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Arcu vitae elementum</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Dui faucibus in ornare</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Morbi tincidunt augue</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-times-circle text-red-500 mr-2"></i>
+                            <span class="text-900">Duis ultricies lacus sed</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-times-circle text-red-500 mr-2"></i>
+                            <span class="text-900">Arcu vitae elementum</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-times-circle text-red-500 mr-2"></i>
+                            <span class="text-900">Dui faucibus in ornare</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-times-circle text-red-500 mr-2"></i>
+                            <span class="text-900">Morbi tincidunt augue</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-times-circle text-red-500 mr-2"></i>
+                            <span class="text-900">Duis ultricies lacus sed</span>
+                        </li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 lg:col-4">
+            <div class="p-3 h-full">
+                <div class="shadow-2 p-6 h-full flex flex-column surface-card" style="border-radius: 6px">
+                    <div class="flex align-items-center flex-wrap">
+                        <div class="flex text-900 font-medium text-4xl text-primary ">Plano Premium</div>
+                        <p-tag *ngIf="isPremium" class="fadeout animation-duration-1000 animation-iteration-infinite flex ml-2 fadein animation-duration-1000 animation-iteration-infinite" value="Ativo" severity="success" [style]="{fontSize: '1rem'}">
+                            <i class="pi pi-check mr-1"></i>
+                        </p-tag>
+                    </div>
+
+                    
+                    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+                        <div class="flex align-items-center">
+                            <span class="font-bold text-2xl text-900">R$ 19,00</span>
+                            <span class="ml-2 font-medium text-600">por mês</span>
+                        </div>
+                    <hr class="my-3 mx-0 border-top-1 border-none surface-border" />
+
+                    <div class="text-600 mb-4">Descrição do plano</div>
+
+                    <ul class="list-none p-0 m-0 flex-grow-1">
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Arcu vitae elementum</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Dui faucibus in ornare</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Morbi tincidunt augue</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Duis ultricies lacus sed</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Arcu vitae elementum</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Dui faucibus in ornare</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Morbi tincidunt augue</span>
+                        </li>
+                        <li class="flex align-items-center mb-3">
+                            <i class="pi pi-check-circle text-green-500 mr-2"></i>
+                            <span class="text-900">Duis ultricies lacus sed</span>
+                        </li>
+                    </ul>
+                    <button pButton pRipple label="Assinar" (click)="checkout()" *ngIf="!isPremium" class="p-3 w-full mt-4"></button>
+                    <button pButton pRipple severity="danger" label="Cancelar Plano" (click)="cancelSubscription()" *ngIf="isPremium" class="p-3 w-full mt-4 p-button-outlined text-red-500"></button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

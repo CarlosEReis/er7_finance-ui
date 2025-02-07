@@ -32,7 +32,7 @@ export class AppComponent {
     return [
       { label: 'Dashboard', icon: 'pi pi-chart-bar', command: () => this.router.navigate(['./dashboard']) },
       { label: 'Transações', icon: 'pi pi-list', command: () => this.router.navigate(['./transactions']) },
-      //{ label: 'Assinatura', icon: 'pi pi-credit-card', command: () => this.router.navigate(['./subscription']) },
+      { label: 'Assinatura', icon: 'pi pi-credit-card', command: () => this.router.navigate(['./subscriptions']) },
     ];
   }
 
