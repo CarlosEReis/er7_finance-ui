@@ -12,6 +12,7 @@ import { TopCategory } from '../model/top-category.model';
 export class TransactionsService {
 
   private readonly URL_API = environment.apiUrl.concat('v1/transactions')
+  private readonly URL_API_CANCEL_PLAN = environment.apiUrl;
 
   constructor(private http: HttpClient ) { }
 
@@ -41,6 +42,10 @@ export class TransactionsService {
 
     getTransactionBalance() {
       return (this.http.get<any>(`${this.URL_API}/statistics/balance`)).pipe(first())
+    }
+
+    cancelPlan() {
+      return this.http.post<any>(`${this.URL_API_CANCEL_PLAN}cancel-plan`, {}).pipe(first())
     }
 
 }
