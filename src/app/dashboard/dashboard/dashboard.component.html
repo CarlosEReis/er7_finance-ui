@@ -111,7 +111,10 @@
     <div class="col-4" ngClass="{{ hasData ? 'opacity-100' : 'opacity-30' }}">
       <div class="text-center  border-round-sm h-full font-bold">
 
-        <p-card class="card h-full" header="Últimas transações">
+        <p-card class="card h-full" header="Últimas transações">  
+
+          <p-button (onClick)="newTransaction()" icon="pi pi-plus" iconPos="right" ></p-button>
+
 
           <div class="card flex justify-content-center">
 

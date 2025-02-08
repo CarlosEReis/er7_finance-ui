@@ -7,6 +7,7 @@ import { Transaction } from '../../model/transaction.model';
 import { MOCKS_TRANSACTION_CATEGORY, MOCKS_TRANSACTIONS } from '../../model/mocks-data.model';
 import { TransactionCategory } from '../../model/transaction-category.enum';
 import { MessageService } from 'primeng/api';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,6 +30,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private transactionService: TransactionsService,
     private messageService: MessageService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -157,6 +159,10 @@ export class DashboardComponent implements OnInit {
   getTransactionCategoryLabel(categoryId: TransactionCategory): string {
     const category = TRANSACTION_CATEGORY.find(category => category.value === categoryId);
     return category ? category.label : 'Desconhecido';
+  }
+
+  newTransaction() {
+    this.router.navigate(['transactions/new']);
   }
 
   private onSuccess(message: string): void {
