@@ -5,6 +5,8 @@ import { MessageService } from 'primeng/api';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Transaction } from '../../model/transaction.model';
 import { TransactionsEventService } from '../transactions-event.service';
+import { TransactionType } from '../../model/transaction-type.enum';
+import { PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY } from '../../model/ui.constants';
 
 @Component({
   selector: 'app-transaction-form',
@@ -18,6 +20,7 @@ export class TransactionFormComponent implements OnInit {
   isEdit: boolean = false;
   formTrasaction!: FormGroup;
   dialogVisible: boolean = false;
+  selectedTransactionType!: { name: string; color: 'success' | 'danger' | 'info' | 'secondary' | 'warning' | 'contrast' | undefined; icon: string };
 
   constructor(
     private router: Router,
@@ -59,37 +62,31 @@ export class TransactionFormComponent implements OnInit {
   }
 
   getMetodosPagamento() {
-    return [
-      { name: 'CREDIT_CARD', code: 1 }, 
-      { name: 'DEBIT_CARD', code: 2 }, 
-      { name: 'BANK_TRANSFER', code: 3 }, 
-      { name: 'BANK_SLIP', code: 4 }, 
-      { name: 'CASH', code: 5 }, 
-      { name: 'PIX', code: 6 }, 
-      { name: 'OTHER', code: 7 }, 
-    ];
-  }
+    return PAYMENT_METHOD_OPTIONS.map(payment => ({ name: payment.label, code: payment.id })); }
 
   getTiposCategoria() {
-    return [
-      { name: 'HOUSING', code: 1},
-      { name: 'TRANSPORTATION', code: 2},
-      { name: 'FOOD', code: 3},
-      { name: 'ENTERTAINMENT', code: 4},
-      { name: 'HEALTH', code: 5},
-      { name: 'UTILITY', code: 6},
-      { name: 'SALARY', code: 7},
-      { name: 'EDUCATION', code: 8},
-      { name: 'OTHER', code: 9},
-    ]
-  }
+    return TRANSACTION_CATEGORY.map(category => ({ name: category.label, code: category.id })); }
 
   getTiposTransacao() {
     return [
-      { name: 'RECEITA', code: 'DEPOSIT' },
-      { name: 'DESPESA', code: 'EXPENSE' },
-      { name: 'INVESTIMENTO', code: 'INVESTMENT' },
+      { name: 'RECEITA', code: 'DEPOSIT', icon: 'pi pi-arrow-up-right', color: 'success' },
+      { name: 'DESPESA', code: 'EXPENSE', icon: 'pi pi-arrow-down-right', color: 'danger' },
+      { name: 'INVESTIMENTO', code: 'INVESTMENT', icon: 'pi pi-chart-line', color: 'info' },
     ];
+  }
+
+  updateTitle(type: TransactionType) {
+    switch (type) {
+      case TransactionType.DEPOSIT:
+        this.title = 'Adicionando uma Receita';
+        break;
+      case TransactionType.EXPENSE:
+        this.title = 'Adicionando uma Despesa';
+        break;
+      case TransactionType.INVESTMENT:
+        this.title = 'Adicionando um Investimento';
+        break;
+    }
   }
 
   save(){
