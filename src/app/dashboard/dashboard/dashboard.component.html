@@ -4,7 +4,8 @@
     <div class="col-8">
       <div class="grid">
 
-        <p-card class="col-12 border-round-sm" id="saldo">
+        <p-skeleton *ngIf="!balance.balance" class="col-12" [style]="{'border-radius': '0 1rem 1rem 0'}" id="saldo" width="100%" height="234px" />
+        <p-card *ngIf="balance.balance" class="col-12 border-round-sm fadein animation-duration-1000" id="saldo"> 
           <div class="grid grid-nogutter surface-section text-800">
             <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center bg-primary">
               <section>
@@ -21,18 +22,22 @@
         </p-card>
 
         <div class="col-4">
-          <app-kpi-card [valor]="balance.investment" [porcentagem]="1" [transactionType]="TransactionType.INVESTMENT"></app-kpi-card>
+          <p-skeleton *ngIf="!balance.investment" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
+           <app-kpi-card *ngIf="balance.investment" class="fadein animation-duration-1000" [valor]="balance.investment" [porcentagem]="1" [transactionType]="TransactionType.INVESTMENT"></app-kpi-card>
         </div>
 
         <div class="col-4">
-          <app-kpi-card [valor]="balance.deposit" [porcentagem]="1" [transactionType]="TransactionType.DEPOSIT"></app-kpi-card>
+          <p-skeleton *ngIf="!balance.deposit" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
+           <app-kpi-card *ngIf="balance.deposit" class="fadein animation-duration-1000" [valor]="balance.deposit" [porcentagem]="1" [transactionType]="TransactionType.DEPOSIT"></app-kpi-card>
         </div>
 
         <div class="col-4">
-          <app-kpi-card [valor]="balance.expense" [porcentagem]="1" [transactionType]="TransactionType.EXPENSE"></app-kpi-card>
+          <p-skeleton *ngIf="!balance.expense" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
+           <app-kpi-card *ngIf="balance.expense" class="fadein animation-duration-1000" [valor]="balance.expense" [porcentagem]="1" [transactionType]="TransactionType.EXPENSE"></app-kpi-card>
         </div>
-
-        <div class="col-6 h-full h-28rem" ngClass="{{ hasData ? 'opacity-100' : 'opacity-30' }}">
+        
+        <p-skeleton *ngIf="!trasanctions" class="col-6 border-round-sm" id="saldo" width="100%" height="476px" />
+        <div *ngIf="trasanctions" class="col-6 h-full h-28rem" ngClass="{{ hasData ? 'opacity-100' : 'opacity-30' }}">
           <div class="text-center border-round-sm font-bold h-full">
             <p-card class="card h-full" header="Porcentagem de transações por Tipo">
 
@@ -77,14 +82,15 @@
           </div>
         </div>
 
-        <div class="col-6 h-full h-28rem" ngClass="{{ hasData ? 'opacity-100' : 'opacity-30' }}">
+        <p-skeleton *ngIf="!transactionsByCaytegory" class="col-6 border-round-sm" id="saldo" width="100%" height="476px" />
+        <div *ngIf="transactionsByCaytegory" class="col-6 h-full h-28rem fadein animation-duration-1000" ngClass="{{ hasData ? 'opacity-100' : 'opacity-30' }}">
           <div class="text-center border-round-sm font-bold h-full">
             <p-card class="card h-full" header="Porcentagem de transações por Categoria">
 
               <div class="card flex justify-content-center h-full">
                 <div class="col-7 h-full w-full h-28rem">
 
-                  <ul class="list-none p-0 m-0" *ngFor="let category of transactionsByCaytegory">
+                  <ul class="list-none p-0 m-0 fadein animation-duration-1000" *ngFor="let category of transactionsByCaytegory">
 
                     <li class="my-4">
                       <div class="flex justify-content-between w-full">
@@ -109,7 +115,9 @@
     </div>
 
     <div class="col-4" ngClass="{{ hasData ? 'opacity-100' : 'opacity-30' }}">
-      <div class="text-center  border-round-sm h-full font-bold">
+      <p-skeleton *ngIf="!trasanctions" class="col-6 p-0 border-round-sm" id="saldo" width="100%" height="890px" />
+      
+      <div *ngIf="trasanctions" class="text-center  border-round-sm h-full font-bold fadein animation-duration-1000">
 
         <p-card class="card h-full" header="Últimas transações">  
 

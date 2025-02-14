@@ -10,6 +10,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import { ChartModule } from 'primeng/chart';
 import { KpiCardComponent } from './kpi-card/kpi-card.component';
 import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ButtonModule } from 'primeng/button';
     TooltipModule,
     ProgressBarModule,
     ChartModule,
-    ButtonModule
+    ButtonModule,
+    SkeletonModule
   ],
   exports: [
     DashboardComponent

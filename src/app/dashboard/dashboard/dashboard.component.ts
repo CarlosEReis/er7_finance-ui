@@ -64,11 +64,13 @@ export class DashboardComponent implements OnInit {
   getTransactionsCategory() {
     this.transactionService.getTransactionsByTopCategory(5).subscribe({
       next: (trasanctions) => {
-        if (trasanctions.length === 0) {
-          this.transactionsByCaytegory = MOCKS_TRANSACTION_CATEGORY;
-          return;
-        }
-        this.transactionsByCaytegory = trasanctions
+        setTimeout(() => {          
+          if (trasanctions.length === 0) {
+            this.transactionsByCaytegory = MOCKS_TRANSACTION_CATEGORY;
+            return;
+          }
+          this.transactionsByCaytegory = trasanctions
+        }, 1100);
       },
       error: (err) => {
         console.error(err)
@@ -81,22 +83,25 @@ export class DashboardComponent implements OnInit {
     this.transactionService.getTransactions().subscribe({
       next: (transactions) => {
         
-        if (transactions.length === 0) {
-          this.trasanctions = MOCKS_TRANSACTIONS;
+        setTimeout(() => {
+        
+          if (transactions.length === 0) {
+            this.trasanctions = MOCKS_TRANSACTIONS;
+            this.setDadaDoughnut(transactions);
+            this.data.datasets[0].data = [...this.dataDoughnut];
+            this.hasData = false
+            // atualiza o gráfico
+            if (this.chart && this.chart.chart) this.chart.chart.update();
+            return
+          }
+          this.hasData = true;
+          this.trasanctions = transactions;
           this.setDadaDoughnut(transactions);
           this.data.datasets[0].data = [...this.dataDoughnut];
-          this.hasData = false
+          
           // atualiza o gráfico
           if (this.chart && this.chart.chart) this.chart.chart.update();
-          return
-        }
-        this.hasData = true;
-        this.trasanctions = transactions;
-        this.setDadaDoughnut(transactions);
-        this.data.datasets[0].data = [...this.dataDoughnut];
-        
-        // atualiza o gráfico
-        if (this.chart && this.chart.chart) this.chart.chart.update();
+        }, 750);
         
       },
       error: (err) => {
@@ -125,7 +130,20 @@ export class DashboardComponent implements OnInit {
   getBalance() {
     this.transactionService.getTransactionBalance().subscribe({
       next: (balace) => {
-        this.balance = balace
+        
+        setTimeout(() => {
+          this.balance.balance = balace.balance;
+          setTimeout(() => {
+            this.balance.investment = balace.investment;
+            setTimeout(() => {
+              this.balance.deposit = balace.deposit;
+              setTimeout(() => {
+                this.balance.expense = balace.expense;
+              }, 150)
+            }, 150)
+          }, 150);
+        }, 150);
+
       },
       error: (err) => {
         console.error(err),
