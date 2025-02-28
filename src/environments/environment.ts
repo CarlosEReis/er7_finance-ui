@@ -1,4 +1,5 @@
 export const environment = {
+    production: true,
     apiUrl: 'https://er7-financeai-api.onrender.com/',
     auth0: {
         domain: 'er7dev.us.auth0.com',
