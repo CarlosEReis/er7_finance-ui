@@ -21,6 +21,8 @@ import { FormsModule } from '@angular/forms';
 
 import { NgxStripeModule } from 'ngx-stripe';
 
+const URL_API = environment.apiUrl;
+
 registerLocaleData(localePt);
 @NgModule({
   declarations: [
@@ -39,9 +41,9 @@ registerLocaleData(localePt);
     ButtonModule,
     AvatarModule,
     MessagesModule,
-
+    
     NgxStripeModule.forRoot('pk_test_51KoXOdIgXBB86uSLi0ANrlmmcnpkUC5uq03eCicFBWLt9gmnT2mSaWHqv3ksAcwbnr5CbAmemBoimpWdI20TPYPe00MA8kU72S'),
-
+    
     AuthModule.forRoot({
       domain: environment.auth0.domain,
       clientId: environment.auth0.clientId,
@@ -51,10 +53,12 @@ registerLocaleData(localePt);
       },
       httpInterceptor: {
         allowedList: [
-          'http://localhost:8080/v1/transactions',
-          'http://localhost:8080/v1/transactions/*',
-          'http://localhost:8080/create-checkout-session',
-          'http://localhost:8080/cancel-plan'
+          `${URL_API}v1/transactions`,
+          `${URL_API}v1/transactions/*`,
+          `${URL_API}v1/report-ai`,
+          `${URL_API}v1/report-ai/*`,
+          `${URL_API}create-checkout-session`,
+          `${URL_API}cancel-plan`
         ],
       },
     }),
