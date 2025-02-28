@@ -1,0 +1,22 @@
+<div class="w-full px-7 py-3" >
+  <div class="flex col-8 m-auto justify-content-between flex-wrap">
+    <div class="flex align-items-center justify-content-center m-2">
+      <h1>Relatórios AI</h1>
+    </div>
+    <div class="flex align-items-center justify-content-center m-2">
+      <p-button *ngIf="!reportButton" class="mr-3" (onClick)="generateReport()" label="Gerar relatório de Janeiro"></p-button>
+      <p-dropdown
+      (onChange)="onChangeMonth()"
+      [options]="months" 
+      [(ngModel)]="selectedMonth" 
+      optionLabel="name"
+      placeholder="Selecione o mês"
+      emptyMessage="Nenhum relatório emitido."/>
+    </div>
+    <span *ngIf="selectedMonth" class="w-full">Relatório gerado com base nas transações registradas entre <b class="text-primary">{{formatDate(this.dateStart)}}</b> e <b class="text-primary">{{formatDate(this.dateEnd)}}</b>  </span>
+  </div>
+  <div class="col-8  m-auto">
+      <p-skeleton *ngIf="loadingReport" class="col-8 m-auto" [style]="{'height': '750px'}"></p-skeleton>
+      <div disable="!loadingReport" id="insights" class="p-6 surface-ground border-round-lg" style="height: 750px; overflow: auto;"></div>
+  </div>
+</div>

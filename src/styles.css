@@ -60,3 +60,21 @@ html {
   border-left: .5rem solid #a3e635a3;
   padding: 0;
 }
+
+.p-menuitem-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font: x-small;
+  background-color: var(--surface-ground);
+  color: var(--primary-color);
+  z-index: -1;
+}
+
+li.p-element:nth-child(3) > a:nth-child(1) {
+ z-index: 1;
+}
+
+hr {
+  margin: 4rem 0;
+}
