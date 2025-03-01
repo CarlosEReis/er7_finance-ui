@@ -4,6 +4,9 @@ import { AuthService } from '@auth0/auth0-angular';
 import { StripeService } from 'ngx-stripe';
 import { jwtDecode } from 'jwt-decode';
 import { TransactionsService } from '../../transactions/transactions.service';
+import { environment } from '../../../environments/environment.development';
+
+
 
 export interface TokenDeco {
   plano: String[]
@@ -16,6 +19,7 @@ export interface TokenDeco {
 })
 export class SubscriptionsComponent implements OnInit { 
 
+  private readonly URL_API = environment.apiUrl;
   isPremium = false;
 
   constructor(
@@ -39,7 +43,7 @@ export class SubscriptionsComponent implements OnInit {
   }
   
   checkout() {
-    this.http.post<{ id: string }>('http://localhost:8080/create-checkout-session', {})
+    this.http.post<{ id: string }>(`${this.URL_API}create-checkout-session`, {})
     .subscribe(session => {
       this.stripeService
         .redirectToCheckout({ sessionId: session.id })
