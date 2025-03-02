@@ -10,7 +10,7 @@
 
   <!-- TABELA DE TRANSACOES-->
   <div class="card">
-    <p-table [value]="trasanctions" [tableStyle]="{ 'min-width': '50rem' }">
+    <p-table [value]="transactions" [tableStyle]="{ 'min-width': '50rem' }">
       <ng-template pTemplate="header">
         <tr>
           <th>Nome</th>
@@ -23,7 +23,18 @@
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-transaction>
-        <tr>
+
+        <tr *ngIf="loadingTransactions">
+          <td width="40%"><p-skeleton height="2.5rem"/></td>
+          <td width="10%"><p-skeleton height="2.5rem"/></td>
+          <td width="10%"><p-skeleton height="2.5rem"/></td>
+          <td width="10%"><p-skeleton height="2.5rem"/></td>
+          <td width="10%"><p-skeleton height="2.5rem"/></td>
+          <td width="10%"><p-skeleton height="2.5rem"/></td>
+          <td width="10%"><p-skeleton height="2.5rem"/></td>
+        </tr>
+
+        <tr *ngIf="!loadingTransactions">
           <td>{{ transaction.name }}</td>
           <td>
             <p-tag [value]="getLabelTransactionType(transaction.type)" [severity]="getTipo(transaction.type)"

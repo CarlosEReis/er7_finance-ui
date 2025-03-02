@@ -16,6 +16,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { InputTextModule } from 'primeng/inputtext';
     DropdownModule,
     CalendarModule,
     ConfirmDialogModule,
-    InputTextModule
+    InputTextModule,
+    SkeletonModule
   ],
   exports: [
     TransactionsListComponent

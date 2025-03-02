@@ -17,7 +17,8 @@ import { TransactionsEventService } from '../transactions-event.service';
 })
 export class TransactionsListComponent implements OnInit {
 
-  trasanctions!: Transaction[];
+  loadingTransactions = true;
+  transactions: Transaction[] | any[] = Array.from({ length: 13 }).map((_, i) => `Item #${i}`);
 
   constructor(
     private transactionsService: TransactionsService,
@@ -42,11 +43,12 @@ export class TransactionsListComponent implements OnInit {
   private getTransactionService(): void {
     this.transactionsService.getTransactions().subscribe({
       next: (trasanctions) => {
-        this.trasanctions = trasanctions
-      },
-      error: (error) => {
-        console.log(error)
-        this.onError('Não foi possível carregar as transações.')},
+          this;this.loadingTransactions = false
+          this.transactions = trasanctions
+        },
+        error: (error) => {
+          console.log(error)
+          this.onError('Não foi possível carregar as transações.')},
     })
   }
 
@@ -88,7 +90,7 @@ export class TransactionsListComponent implements OnInit {
             this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Transação removida com sucesso.', life: 3000 })
             this.transactionsService.getTransactions().subscribe({
               next: (trasanctions) => {
-                this.trasanctions = trasanctions
+                this.transactions = trasanctions
               },
               error: (error) => {
                 console.log(error)
