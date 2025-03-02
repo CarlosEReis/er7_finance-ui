@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY } from '../../model/ui.constants';
 import { TransactionType } from '../../model/transaction-type.enum';
 import { TransactionPaymentMethod } from '../../model/payment-method.enum';
@@ -17,7 +17,8 @@ import { Router } from '@angular/router';
 export class DashboardComponent implements OnInit {
 
   hasData = false;
-  balance = { deposit: 0, expense: 0, investment: 0, balance: 0 };
+  loadingBalance = { deposit: 0, expense: 0, investment: 0, balance: 0 };
+  balance = { deposit: -1, expense: -1, investment: -1, balance: -1 };
   TransactionType = TransactionType;
   transactionsByCaytegory!: any[];
   trasanctions!: any[];
@@ -133,12 +134,16 @@ export class DashboardComponent implements OnInit {
         
         setTimeout(() => {
           this.balance.balance = balace.balance;
+          this.loadingBalance.balance = 1;
           setTimeout(() => {
             this.balance.investment = balace.investment;
+            this.loadingBalance.investment = 1;
             setTimeout(() => {
               this.balance.deposit = balace.deposit;
+              this.loadingBalance.deposit = 1;
               setTimeout(() => {
                 this.balance.expense = balace.expense;
+                this.loadingBalance.expense = 1;
               }, 150)
             }, 150)
           }, 150);

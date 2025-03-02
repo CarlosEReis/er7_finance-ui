@@ -4,8 +4,8 @@
     <div class="col-8">
       <div class="grid">
 
-        <p-skeleton *ngIf="!balance.balance" class="col-12" [style]="{'border-radius': '0 1rem 1rem 0'}" id="saldo" width="100%" height="234px" />
-        <p-card *ngIf="balance.balance" class="col-12 border-round-sm fadein animation-duration-1000" id="saldo"> 
+        <p-skeleton *ngIf="!loadingBalance.balance" class="col-12" [style]="{'border-radius': '0 1rem 1rem 0'}" id="saldo" width="100%" height="234px" />
+        <p-card *ngIf="loadingBalance.balance" class="col-12 border-round-sm fadein animation-duration-1000" id="saldo"> 
           <div class="grid grid-nogutter surface-section text-800">
             <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center bg-primary">
               <section>
@@ -22,18 +22,18 @@
         </p-card>
 
         <div class="col-4">
-          <p-skeleton *ngIf="!balance.investment" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
-           <app-kpi-card *ngIf="balance.investment" class="fadein animation-duration-1000" [valor]="balance.investment" [porcentagem]="1" [transactionType]="TransactionType.INVESTMENT"></app-kpi-card>
+          <p-skeleton *ngIf="!loadingBalance.investment" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
+           <app-kpi-card *ngIf="loadingBalance.investment" class="fadein animation-duration-1000" [valor]="balance.investment" [porcentagem]="1" [transactionType]="TransactionType.INVESTMENT"></app-kpi-card>
         </div>
 
         <div class="col-4">
-          <p-skeleton *ngIf="!balance.deposit" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
-           <app-kpi-card *ngIf="balance.deposit" class="fadein animation-duration-1000" [valor]="balance.deposit" [porcentagem]="1" [transactionType]="TransactionType.DEPOSIT"></app-kpi-card>
+          <p-skeleton *ngIf="!loadingBalance.deposit" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
+           <app-kpi-card *ngIf="loadingBalance.deposit" class="fadein animation-duration-1000" [valor]="balance.deposit" [porcentagem]="1" [transactionType]="TransactionType.DEPOSIT"></app-kpi-card>
         </div>
 
         <div class="col-4">
-          <p-skeleton *ngIf="!balance.expense" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
-           <app-kpi-card *ngIf="balance.expense" class="fadein animation-duration-1000" [valor]="balance.expense" [porcentagem]="1" [transactionType]="TransactionType.EXPENSE"></app-kpi-card>
+          <p-skeleton *ngIf="!loadingBalance.expense" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
+           <app-kpi-card *ngIf="loadingBalance.expense" class="fadein animation-duration-1000" [valor]="balance.expense" [porcentagem]="1" [transactionType]="TransactionType.EXPENSE"></app-kpi-card>
         </div>
         
         <p-skeleton *ngIf="!trasanctions" class="col-6 border-round-sm" id="saldo" width="100%" height="476px" />
