@@ -121,7 +121,11 @@
 
         <p-card class="card h-full" header="Últimas transações">  
 
+          <div class="flex align-items-center justify-content-center m-2">
+          <app-invitation-form></app-invitation-form>
           <p-button (onClick)="newTransaction()" icon="pi pi-plus" iconPos="right" ></p-button>
+
+          </div>
 
 
           <div class="card flex justify-content-center">
@@ -160,3 +164,5 @@
   </div>
 
 </div>
+
+<app-invitation-form></app-invitation-form>

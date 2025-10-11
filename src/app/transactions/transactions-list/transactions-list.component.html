@@ -4,7 +4,10 @@
       <h1>Transações</h1>
     </div>
     <div class="flex align-items-center justify-content-center m-2">
-      <p-button label="Adicionar" icon="pi pi-sort-alt" iconPos="right" (onClick)="newTransaction()"></p-button>
+        
+        <app-invitation-form></app-invitation-form>
+      
+        <p-button label="Adicionar" icon="pi pi-sort-alt" iconPos="right" (onClick)="newTransaction()"></p-button>
     </div>
   </div>
 
@@ -14,10 +17,11 @@
       <ng-template pTemplate="header">
         <tr>
           <th>Nome</th>
+          <th>Emissor</th>
           <th>Tipo</th>
           <th>Categoria</th>
           <th>Método</th>
-          <th>Data</th>
+          <th>Data</th> 
           <th>Valor</th>
           <th class="text-right">Ações</th>
         </tr>
@@ -32,10 +36,20 @@
           <td width="10%"><p-skeleton height="2.5rem"/></td>
           <td width="10%"><p-skeleton height="2.5rem"/></td>
           <td width="10%"><p-skeleton height="2.5rem"/></td>
+          <td width="10%"><p-skeleton height="2.5rem"/></td>
         </tr>
 
         <tr *ngIf="!loadingTransactions">
           <td>{{ transaction.name }}</td>
+          <td>
+            <p-avatar 
+              [image]="transaction.user.picture"
+              [pTooltip]="transaction.user.name"
+              tooltipPosition="right  "
+              styleClass="mr-2" 
+              size="large" 
+              shape="circle" />
+          </td>
           <td>
             <p-tag [value]="getLabelTransactionType(transaction.type)" [severity]="getTipo(transaction.type)"
               [icon]="transaction.type === 'DEPOSIT' ? 'pi pi-caret-down' : 'pi pi-caret-up'" />

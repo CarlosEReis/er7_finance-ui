@@ -17,6 +17,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { SkeletonModule } from 'primeng/skeleton';
+import { AvatarModule } from 'primeng/avatar';
+import { InvitationModule } from "../invitation/invitation.module";
 
 @NgModule({
   declarations: [
@@ -28,7 +30,7 @@ import { SkeletonModule } from 'primeng/skeleton';
     FormsModule,
     ReactiveFormsModule,
     TransactionsRoutingModule,
-
+    AvatarModule,
     ButtonModule,
     TableModule,
     TagModule,
@@ -39,8 +41,11 @@ import { SkeletonModule } from 'primeng/skeleton';
     CalendarModule,
     ConfirmDialogModule,
     InputTextModule,
-    SkeletonModule
-  ],
+    SkeletonModule,
+    InvitationModule,
+
+    
+],
   exports: [
     TransactionsListComponent
   ]

@@ -1,0 +1,19 @@
+<div class="card flex justify-content-center">
+    <p-button (onClick)="showDialog()" icon="pi pi-user-plus" outlined="true" class="mr-3" />
+    <p-dialog header="Convide alguém!!" [modal]="true" [(visible)]="visible" maskStyleClass="blur"  [style]="{ width: '35rem' }">
+        <span class="p-text-secondary block mb-5">Convide alguém para compartilhar suas transações.</span>
+        
+        <form [formGroup]="form">
+            <div class="field">
+                <label for="titulo">E-mail</label>
+                <input formControlName="email" id="email" type="email" pInputText placeholder="Digite o e-mail   "
+                    class="p-fluid w-full" />
+            </div>
+            
+            <div class="flex justify-content-end gap-2">
+                <p-button label="Cancelar" severity="secondary" (onClick)="visible = false" />
+                <p-button label="Enviar" (onClick)="sendInvitation()" />
+            </div>
+        </form>
+    </p-dialog>
+</div>
