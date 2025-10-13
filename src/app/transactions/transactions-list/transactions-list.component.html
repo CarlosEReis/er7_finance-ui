@@ -64,7 +64,7 @@
             </div>
           <td>{{ transaction.date | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>{{ transaction.amount | currency: 'BRL':'symbol':'1.2-2' }}</td>
-          <td class="w-1 text-right">
+          <td class="text-right" style="width: 9%">
             <p-button size="small" icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
               severity="success" (onClick)="editTransaction(transaction.id)" />
             <p-button size="small" icon="pi pi-trash" severity="danger" [rounded]="true" [outlined]="true"
