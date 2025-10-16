@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { InvitatioinService } from '../invitatioin.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-invitation-accept',
@@ -8,11 +10,28 @@ import { Component, inject, Inject, OnInit } from '@angular/core';
 })
 export class InvitationAcceptComponent implements OnInit {
 
-  private http: HttpClient = inject(HttpClient);
+  private invitationService: InvitatioinService = inject(InvitatioinService);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private messageService: MessageService = inject(MessageService);
 
   ngOnInit(): void {
   
-    console.log("Invitation accepted! You can now log in.");
+    const inviteToken = this.activatedRoute.snapshot.params['invitationToken'];
+
+    if (inviteToken) {
+      this.invitationService.acceptInvitation(inviteToken).subscribe({
+        next: (response) => {
+          this.messageService.add({ severity: 'success', summary: 'Convite Aceito', detail: 'Seu convite foi aceito com sucesso! Você já pode compartilhas seua lançamentos.' });
+        },
+        error: (error) => {
+          this.messageService.add({ severity: 'error', summary: 'Erro ao aceitar convite', detail: 'Ocorreu um erro ao aceitar o convite. Por favor, tente novamente.' });
+          console.error('Error accepting invitation:', error);
+        }
+      });
+    } else {
+      console.error('No invitation token found in the URL.');
+    }
+
   }
 
 }

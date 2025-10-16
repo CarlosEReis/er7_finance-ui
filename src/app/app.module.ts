@@ -56,6 +56,7 @@ registerLocaleData(localePt);
           `${URL_API}v1/transactions`,
           `${URL_API}v1/transactions/*`,
           `${URL_API}invitations`,
+          `${URL_API}invitations/accept`,
           `${URL_API}v1/report-ai`,
           `${URL_API}v1/report-ai/*`,
           `${URL_API}create-checkout-session`,
