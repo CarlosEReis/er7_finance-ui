@@ -19,6 +19,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SkeletonModule } from 'primeng/skeleton';
 import { AvatarModule } from 'primeng/avatar';
 import { InvitationModule } from "../invitation/invitation.module";
+import { FloatLabelModule } from 'primeng/floatlabel';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,8 @@ import { InvitationModule } from "../invitation/invitation.module";
     InputTextModule,
     SkeletonModule,
     InvitationModule,
-
+    FloatLabelModule,
+    InputTextareaModule
     
 ],
   exports: [

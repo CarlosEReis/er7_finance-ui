@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
+import { Invitation } from './invitation-form/invitation-form.component';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,9 @@ export class InvitatioinService {
 
   private http = inject(HttpClient);
 
-  createInvitation(email: string) {
-    return this.http.post<any>(this.URL_API, { email: email });
+  createInvitation(invitation: Invitation) {
+    console.log('Enviando convite:', invitation);
+    return this.http.post<any>(this.URL_API, invitation);
   }
 
   acceptInvitation(token: string) {

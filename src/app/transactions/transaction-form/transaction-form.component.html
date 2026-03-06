@@ -1,7 +1,7 @@
 <form [formGroup]="formTrasaction">
     <div class="card flex justify-content-center">
-        <p-dialog header="Header" [(visible)]="dialogVisible" [modal]="true" maskStyleClass="blur"  closable="false"
-            [breakpoints]="{ '699px': '75vw', '875px': '90vw' }" [style]="{ width: '30vw' }" [draggable]="false">
+        <p-dialog header="Header" [(visible)]="dialogTransactionVisible" [modal]="true" maskStyleClass="blur"  closable="false"
+            [breakpoints]="{ '699px': '75vw', '875px': '90vw' }" [style]="{ width: '30vw' }" rtl="true">
             <ng-template pTemplate="header">
                 <div class=" align-items-center justify-content-center gap-2">
                     <h3 class="text-3xl my-2" [ngClass]="{
@@ -53,8 +53,18 @@
 
                 <div class="field" formGroupName="paymentMethod">
                     <label for="metodo-pagamento">Método Pagamento</label>
-                    <p-dropdown formControlName="id" class="p-fluid" id="metodo-pagamento" [options]="getMetodosPagamento()"
+                    <p-dropdown formControlName="id" class="p-fluid" id="metodo-pagamento" [options]="getMetodosPagamento()" appendTo="body"
                         optionLabel="name" optionValue="code" placeholder="Selecione o Método de Pagamento" />
+                </div>
+
+                <div class="field" formGroupName="group">
+                    <label for="grupo">Grupo</label>
+                    <div class="flex gap-2">
+                        <p-dropdown formControlName="id" class="p-fluid flex-1" id="grupo" [options]="optionsGroup" appendTo="body"
+                            optionLabel="name" optionValue="code" placeholder="Selecione o Grupo" />
+                        <p-button class="btn-primary" icon="pi pi-plus"
+                        (onClick)="dialogGroupVisible = true" />
+                    </div>
                 </div>
 
                 <div class="field">
@@ -63,6 +73,9 @@
                         [(ngModel)]="date" formControlName="date" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="Data da Transação"
                         inputId="buttondisplay" />
                 </div>
+
+
+
             </div>
 
             <ng-template pTemplate="footer">
@@ -74,3 +87,41 @@
         </p-dialog>
     </div>
 </form>
+
+
+<p-dialog header="Header" [(visible)]="dialogGroupVisible" [modal]="true" maskStyleClass="blur"  closable="false"
+    [breakpoints]="{ '699px': '75vw', '875px': '90vw' }" [style]="{ width: '30vw' }" [draggable]="false">
+    <ng-template pTemplate="header">
+        <div class=" align-items-center justify-content-center gap-2">
+            <h3 class="text-3xl my-2">Criar um Grupo</h3>
+            <span class="p-text-secondary block ">Crie grupos para organizar suas transações, e oque os convidados podem visualizar.</span>
+        </div>
+    </ng-template>
+
+    <div class="mt-3">
+        <form [formGroup]="formGroup">
+            <div class="field">
+                <label for="titulo">Nome</label>
+                <input formControlName="name" id="titulo" type="text" pInputText placeholder="Nome"
+                    class="p-fluid w-full" />
+            </div>
+            <div class="field">
+                <label for="group-description">Descrição</label>
+                <textarea
+                    formControlName="description"
+                    class="p-fluid w-full"
+                    id="group-description" 
+                    rows="5" cols="30" 
+                    pInputTextarea>
+                </textarea>          
+            </div>
+        </form>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button label="Cancelar" [outlined]="true"
+            (onClick)="dialogGroupVisible = false" />
+        <p-button label="Criar" class="btn-primary"
+            (onClick)="createGroup()" [disabled]="formGroup.invalid"/>
+    </ng-template>
+</p-dialog>

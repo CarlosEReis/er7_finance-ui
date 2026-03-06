@@ -19,7 +19,10 @@ export class TransactionFormComponent implements OnInit {
   date: Date | undefined;
   isEdit: boolean = false;
   formTrasaction!: FormGroup;
-  dialogVisible: boolean = false;
+  formGroup!: FormGroup;
+  optionsGroup: any[] = [];
+  dialogTransactionVisible: boolean = false;
+  dialogGroupVisible: boolean = false;
   selectedTransactionType!: { name: string; color: 'success' | 'danger' | 'info' | 'secondary' | 'warning' | 'contrast' | undefined; icon: string };
 
   constructor(
@@ -32,7 +35,7 @@ export class TransactionFormComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.dialogVisible = true;
+    this.dialogTransactionVisible = true;
     const id = this.route.snapshot.params['id']    
     if (id) {
       this.isEdit = true;
@@ -43,6 +46,8 @@ export class TransactionFormComponent implements OnInit {
     } 
 
     this.formTrasaction = this.getTransactionForm();
+    this.formGroup = this.getFormGroup();
+    this.getGroups();
   }
 
   getTransactionForm(): FormGroup {
@@ -58,6 +63,16 @@ export class TransactionFormComponent implements OnInit {
         id: ['', Validators.required],
       }),
       date: [this.date, Validators.required],
+      group: this.formBuilder.group({
+        id: ['', Validators.required]
+      })
+    });
+  }
+
+  getFormGroup(): FormGroup {
+   return this.formBuilder.group({
+      name: ['', Validators.required],
+      description: ['', Validators.required],
     });
   }
 
@@ -75,6 +90,19 @@ export class TransactionFormComponent implements OnInit {
     ];
   }
 
+  getGroups() {
+    this.transactionsService.getGroupsFromUser().subscribe({
+      next: (groups) => {
+        this.optionsGroup = groups.map((group: any) => {
+          return { name: group.name, code: group.id };
+        });
+      },
+      error: (error) => {
+        console.error(error);
+        this.onError('Não foi possível carregar os grupos do usuário')}
+    })
+  }
+
   updateTitle(type: TransactionType) {
     switch (type) {
       case TransactionType.DEPOSIT:
@@ -89,6 +117,26 @@ export class TransactionFormComponent implements OnInit {
     }
   }
 
+  createGroup() {
+    if(!this.formGroup.invalid) {
+      const group = {
+        name: this.formGroup.get('name')?.value,
+        description: this.formGroup.get('description')?.value
+      }
+      this.transactionsService.createGroup(group).subscribe({
+        next: (group) => {
+          this.onSuccess('Grupo criado com sucesso')
+          this.dialogGroupVisible = false;
+          this.optionsGroup.push({ name: group.name, code: group.id });
+          this.formTrasaction.get('group')?.get('id')?.setValue(group.id);
+        },
+        error: (error) => {
+          console.error(error);
+          this.onError('Não foi possível criar o grupo')}
+      })  
+    }
+  }
+  
   save(){
     if(this.isEdit) {
       this.OnUpdate();
@@ -154,5 +202,7 @@ export class TransactionFormComponent implements OnInit {
       key: 'error'
     })
   }
+
+
 }
 

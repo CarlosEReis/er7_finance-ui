@@ -18,6 +18,7 @@
         <tr>
           <th>Nome</th>
           <th>Emissor</th>
+          <th>Grupo</th>
           <th>Tipo</th>
           <th>Categoria</th>
           <th>Método</th>
@@ -29,6 +30,7 @@
       <ng-template pTemplate="body" let-transaction>
 
         <tr *ngIf="loadingTransactions">
+          <td width="40%"><p-skeleton height="2.5rem"/></td>
           <td width="40%"><p-skeleton height="2.5rem"/></td>
           <td width="10%"><p-skeleton height="2.5rem"/></td>
           <td width="10%"><p-skeleton height="2.5rem"/></td>
@@ -43,26 +45,27 @@
           <td>{{ transaction.name }}</td>
           <td>
             <p-avatar 
-              [image]="transaction.user.picture"
-              [pTooltip]="transaction.user.name"
+              [image]="transaction.picture"
+              [pTooltip]="transaction.registradoPor"
               tooltipPosition="right"
               styleClass="mr-2" 
               size="large" 
               shape="circle" />
           </td>
+          <td>{{ transaction.grupo }}</td>
           <td>
             <p-tag [value]="getLabelTransactionType(transaction.type)" [severity]="getTipo(transaction.type)"
               [icon]="transaction.type === 'DEPOSIT' ? 'pi pi-caret-down' : 'pi pi-caret-up'" />
           </td>
-          <td>{{ getLabelTransactioinCategory(transaction.category.name) }}</td>
+          <td>{{ getLabelTransactioinCategory(transaction.categoria) }}</td>
           <td>
             <div
               class="w-2rem h-2rem font-bold p-tag flex align-items-center justify-content-center p-2 border-round mr-3"
               [ngClass]="getStyleClass(transaction.type)"
-              pTooltip="{{ getLabelPaymentMethod(transaction.paymentMethod.name) }}">
-              <i class="pi p-2" [ngClass]="getIcon(transaction.paymentMethod.name)" style="font-size: 1.2rem"></i>
+              pTooltip="{{ getLabelPaymentMethod(transaction.paymentMethodName) }}">
+              <i class="pi p-2" [ngClass]="getIcon(transaction.paymentMethodName)" style="font-size: 1.2rem"></i>
             </div>
-          <td>{{ transaction.date | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ transaction.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>{{ transaction.amount | currency: 'BRL':'symbol':'1.2-2' }}</td>
           <td class="text-right" style="width: 9%">
             <p-button size="small" icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"

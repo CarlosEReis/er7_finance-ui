@@ -9,6 +9,7 @@ import { InvitationFormComponent } from './invitation-form/invitation-form.compo
 import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DropdownModule } from 'primeng/dropdown';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 
     ButtonModule,
     DialogModule,
-    InputTextModule
+    InputTextModule,
+    DropdownModule
   ],
   exports: [
     InvitationFormComponent

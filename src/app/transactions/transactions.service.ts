@@ -11,6 +11,7 @@ import { TopCategory } from '../model/top-category.model';
 })
 export class TransactionsService {
 
+  private readonly URL_API_BASE = environment.apiUrl;
   private readonly URL_API = environment.apiUrl.concat('v1/transactions')
   private readonly URL_API_CANCEL_PLAN = environment.apiUrl;
 
@@ -46,6 +47,14 @@ export class TransactionsService {
 
     cancelPlan() {
       return this.http.post<any>(`${this.URL_API_CANCEL_PLAN}cancel-plan`, {}).pipe(first())
+    }
+
+    getGroupsFromUser() {
+      return this.http.get<any>(`${this.URL_API_BASE}v1/groups`).pipe(first())
+    }
+
+    createGroup(group: any) {
+      return this.http.post<any>(`${this.URL_API_BASE}v1/groups`, group).pipe(first())
     }
 
 }

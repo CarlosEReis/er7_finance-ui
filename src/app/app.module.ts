@@ -55,6 +55,7 @@ registerLocaleData(localePt);
         allowedList: [
           `${URL_API}v1/transactions`,
           `${URL_API}v1/transactions/*`,
+          `${URL_API}v1/groups`,
           `${URL_API}invitations`,
           `${URL_API}invitations/accept`,
           `${URL_API}v1/report-ai`,
