@@ -2,7 +2,6 @@
     <p-button (onClick)="showDialog()" icon="pi pi-user-plus" outlined="true" class="mr-3" />
     <p-dialog header="Convide alguém!!" [modal]="true" [(visible)]="visible" maskStyleClass="blur"  [style]="{ width: '35rem' }">
         <span class="p-text-secondary block mb-5">Convide alguém para compartilhar suas transações.</span>
-    {{ formGroup.value | json }}
         <form [formGroup]="formGroup">
             <div class="field">
                 <label for="titulo">E-mail</label>
