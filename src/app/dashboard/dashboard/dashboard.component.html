@@ -139,8 +139,8 @@
                     <div
                       class="w-2rem h-2rem font-bold p-tag flex align-items-center justify-content-center p-2 border-round mr-3"
                       [ngClass]="getStyleClass(transaction.type)"
-                      pTooltip="{{ getLabel(transaction.paymentMethod.name) }}">
-                      <i class="pi p-2" [ngClass]="getIcons(transaction.paymentMethod.name)"
+                      pTooltip="{{ getLabel(transaction.paymentMethodName) }}">
+                      <i class="pi p-2" [ngClass]="getIcons(transaction.paymentMethodName)"
                         style="font-size: 1.2rem"></i>
                     </div>
 
