@@ -1,0 +1,5 @@
+::ng-deep .p-togglebutton.p-highlight .p-button-label {
+  background: #a3e635 !important;
+  color: #09090b;
+  font-weight: bold;
+}

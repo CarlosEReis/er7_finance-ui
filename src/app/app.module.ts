@@ -41,9 +41,9 @@ registerLocaleData(localePt);
     ButtonModule,
     AvatarModule,
     MessagesModule,
-    
+
     NgxStripeModule.forRoot('pk_test_51KoXOdIgXBB86uSLi0ANrlmmcnpkUC5uq03eCicFBWLt9gmnT2mSaWHqv3ksAcwbnr5CbAmemBoimpWdI20TPYPe00MA8kU72S'),
-    
+
     AuthModule.forRoot({
       domain: environment.auth0.domain,
       clientId: environment.auth0.clientId,

@@ -18,37 +18,33 @@
                     <input formControlName="name" id="titulo" type="text" pInputText placeholder="Título"
                         class="p-fluid w-full" />
                 </div>
+
                 <div class="field">
-                    <div class="flex gap-2">
-                        <div class="flex-1">
-                            <label for="valor">Valor</label>
-                            <p-inputNumber class="p-fluid w-full" formControlName="amount" id="valor" inputId="currency-us"
-                                mode="currency" currency="BRL" locale="pt-BR" />
-                        </div>
-                        <div class="flex-1">
-                            <label for="data">Data</label>
-                            <p-calendar formControlName="date" class="p-fluid surface-overlay" id="data" appendTo="body"
-                                [ngModel]="date" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="Data da Transação"
-                                inputId="buttondisplay" />
-                        </div>
+                  <div class="flex">
+                    <div class="flex-1">
+                      <label for="titulo">Recorrente</label>
+                      <p-toggleButton formControlName="recurring" onLabel="Sim" offLabel="Não" class="p-fluid min-w-40 btn-primary" />
                     </div>
+                  </div>
+
                 </div>
+
                 <div class="field">
-                    <div class="flex gap-2">
+                    <div class="flex ">
                         <div class="flex-1">
                             <label for="tipo-transacao">Tipo Transação</label>
                             <p-dropdown formControlName="type" class="p-fluid" id="tipo-transacao" (onChange)="updateTitle(formTrasaction.get('type')?.value)" [options]="getTiposTransacao()" [(ngModel)]="selectedTransactionType" optionLabel="name" optionValue="code" placeholder="Selecione o Tipo de Transação">
                                 <ng-template pTemplate="selectedItem" let-transaction>
                                     <div class="flex align-items-center gap-2" *ngIf="formTrasaction.get('type')?.value">
-                                        <p-tag [value]="transaction.name" 
-                                        [severity]="transaction.color" 
+                                        <p-tag [value]="transaction.name"
+                                        [severity]="transaction.color"
                                         [icon]="transaction.icon" />
                                     </div>
                                 </ng-template>
                                 <ng-template let-transaction pTemplate="item">
                                     <div class="flex align-items-center gap-2">
-                                        <p-tag  [value]="transaction.name" 
-                                                [severity]="transaction.color" 
+                                        <p-tag  [value]="transaction.name"
+                                                [severity]="transaction.color"
                                                 [icon]="transaction.icon" />
                                     </div>
                                 </ng-template>
@@ -61,14 +57,35 @@
                         </div>
                     </div>
                 </div>
+                <div class="field">
+                <div class="flex gap-2">
+                  <div class="flex-1">
+                    <label for="valor">Valor</label>
+                    <p-inputNumber class="p-fluid w-full" formControlName="amount" id="valor" inputId="currency-us"
+                                   mode="currency" currency="BRL" locale="pt-BR" />
+                  </div>
+                  <div class="flex-1">
+                    @if (formTrasaction.get('type')?.value === 'EXPENSE') {
+                      <label for="data-vencimento">Data Vencimento</label>
+                      <p-calendar formControlName="date" class="p-fluid surface-overlay" id="data-vencimento" appendTo="body"
+                                  [ngModel]="date" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="Data do Vencimento"
+                                  inputId="buttondisplay" />
+                    } @else {
+                      <label for="data-transacao">Data Transação</label>
+                      <p-calendar formControlName="date" class="p-fluid surface-overlay" id="data-transacao" appendTo="body"
+                                  [ngModel]="date" [showIcon]="true" dateFormat="dd/mm/yy" placeholder="Data da Transação"
+                                  inputId="data-transacao" />
+                    }
 
-
-                <div class="field" formGroupName="paymentMethod">
-                    <label for="metodo-pagamento">Método Pagamento</label>
-                    <p-dropdown formControlName="id" class="p-fluid" id="metodo-pagamento" [options]="getMetodosPagamento()" appendTo="body"
-                        optionLabel="name" optionValue="code" placeholder="Selecione o Método de Pagamento" />
+                  </div>
                 </div>
+              </div>
 
+              <div class="field" formGroupName="paymentMethod">
+                <label for="metodo-pagamento">Método Pagamento</label>
+                <p-dropdown formControlName="id" class="p-fluid" id="metodo-pagamento" [options]="getMetodosPagamento()" appendTo="body"
+                    optionLabel="name" optionValue="code" placeholder="Selecione o Método de Pagamento" />
+                </div>
                 <div class="field" formGroupName="group">
                     <label for="grupo">Grupo</label>
                     <div class="flex gap-2">
@@ -78,14 +95,7 @@
                         (onClick)="dialogGroupVisible = true" />
                     </div>
                 </div>
-
-                <div class="field">
-
-                </div>
-
-
-
-            </div>
+              </div>
 
             <ng-template pTemplate="footer">
                 <p-button label="Cancelar" [outlined]="true"
@@ -119,10 +129,10 @@
                 <textarea
                     formControlName="description"
                     class="p-fluid w-full"
-                    id="group-description" 
-                    rows="3" cols="30" 
+                    id="group-description"
+                    rows="3" cols="30"
                     pInputTextarea>
-                </textarea>          
+                </textarea>
             </div>
         </form>
     </div>

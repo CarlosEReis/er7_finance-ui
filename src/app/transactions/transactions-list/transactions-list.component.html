@@ -4,9 +4,9 @@
       <h1>Transações</h1>
     </div>
     <div class="flex align-items-center justify-content-center m-2">
-        
+
         <app-invitation-form></app-invitation-form>
-      
+
         <p-button label="Adicionar" icon="pi pi-sort-alt" iconPos="right" (onClick)="newTransaction()"></p-button>
     </div>
   </div>
@@ -22,7 +22,8 @@
           <th>Tipo</th>
           <th>Categoria</th>
           <th>Método</th>
-          <th>Data</th> 
+          <th>Dt. Process</th>
+          <th>Dt. Criação</th>
           <th>Valor</th>
           <th class="text-right">Ações</th>
         </tr>
@@ -39,17 +40,18 @@
           <td width="10%"><p-skeleton height="2.5rem"/></td>
           <td width="10%"><p-skeleton height="2.5rem"/></td>
           <td width="10%"><p-skeleton height="2.5rem"/></td>
+          <td width="10%"><p-skeleton height="2.5rem"/></td>
         </tr>
 
         <tr *ngIf="!loadingTransactions">
           <td>{{ transaction.name }}</td>
           <td>
-            <p-avatar 
+            <p-avatar
               [image]="transaction.picture"
               [pTooltip]="transaction.registradoPor"
               tooltipPosition="right"
-              styleClass="mr-2" 
-              size="large" 
+              styleClass="mr-2"
+              size="large"
               shape="circle" />
           </td>
           <td>{{ transaction.grupo }}</td>
@@ -65,7 +67,8 @@
               pTooltip="{{ getLabelPaymentMethod(transaction.paymentMethodName) }}">
               <i class="pi p-2" [ngClass]="getIcon(transaction.paymentMethodName)" style="font-size: 1.2rem"></i>
             </div>
-          <td>{{ transaction.createdAt | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ transaction.dateProcess | date: 'dd/MM/yyyy' }}</td>
+          <td>{{ transaction.createdAt | date: 'dd/MM/yyyy' }}</td>
           <td>{{ transaction.amount | currency: 'BRL':'symbol':'1.2-2' }}</td>
           <td class="text-right" style="width: 9%">
             <p-button size="small" icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"

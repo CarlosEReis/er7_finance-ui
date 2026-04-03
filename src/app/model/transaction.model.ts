@@ -12,4 +12,5 @@ export interface Transaction {
     createdAt: string;
     updatedAt: string;
     paymentMethod: PaymentMethod;
+    recurring: boolean;
 }

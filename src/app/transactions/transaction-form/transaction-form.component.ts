@@ -36,19 +36,19 @@ export class TransactionFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.dialogTransactionVisible = true;
-    const id = this.route.snapshot.params['id']    
+    const id = this.route.snapshot.params['id']
     if (id) {
       this.isEdit = true;
       this.title = 'Editando Transação ' + id ;
       this.loadingTransactionById(id)
     } else {
       this.title = 'Adicionar Transação'
-    } 
-
+    }
     this.formTrasaction = this.getTransactionForm();
     this.formGroup = this.getFormGroup();
     this.getGroups();
   }
+  checked: boolean = false;
 
   getTransactionForm(): FormGroup {
     return this.formBuilder.group({
@@ -65,7 +65,8 @@ export class TransactionFormComponent implements OnInit {
       date: [this.date, Validators.required],
       group: this.formBuilder.group({
         id: ['', Validators.required]
-      })
+      }),
+      recurring: [false, Validators.required],
     });
   }
 
@@ -133,10 +134,10 @@ export class TransactionFormComponent implements OnInit {
         error: (error) => {
           console.error(error);
           this.onError('Não foi possível criar o grupo')}
-      })  
+      })
     }
   }
-  
+
   save(){
     if(this.isEdit) {
       this.OnUpdate();
@@ -175,7 +176,7 @@ export class TransactionFormComponent implements OnInit {
         this.onError('Não foi possível atualizar a transaction: ' + id)}
     });
   }
-  
+
   private loadingTransactionById(id: number) {
     this.transactionsService.getTransactionById(id)
     .subscribe({
@@ -194,12 +195,13 @@ export class TransactionFormComponent implements OnInit {
   }
 
   private onError(message: string): void{
-    this.messageService.add({ 
-      severity: 'error', 
-      summary: 'Erro no servidor remoto: ', 
-      detail: message.concat('. Tente novamente em instantes ou contate o Administrador do sistema.'), 
-      life: 50000, 
-      key: 'error'
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro no servidor remoto: ',
+      detail: message.concat('. Tente novamente em instantes ou contate o Administrador do sistema.'),
+      life: 50000,
+      key: 'error',
+      closable: true
     })
   }
 
