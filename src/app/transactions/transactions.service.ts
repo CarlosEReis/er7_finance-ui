@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { TransactionType } from '../model/transaction-type.enum';
 import { Transaction } from '../model/transaction.model';
 import { first, Observable, of, take, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { TopCategory } from '../model/top-category.model';
+import {TransactionFilter} from './TransactionFilter';
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,12 @@ export class TransactionsService {
 
   constructor(private http: HttpClient ) { }
 
-    getTransactions(): Observable<Transaction[]> {
-      return this.http.get<Transaction[]>(this.URL_API).pipe(first())
+    getTransactions(filter: TransactionFilter): Observable<Transaction[]> {
+      let params = new HttpParams();
+      if (filter.dateProcessStar) params = params.append('dateProcessStar', filter.dateProcessStar);
+      if (filter.dateProcessEnd) params = params.append('dateProcessEnd', filter.dateProcessEnd);
+
+      return this.http.get<Transaction[]>(this.URL_API, { params }).pipe(first())
     }
 
     getTransactionById(id: number): Observable<Transaction> {

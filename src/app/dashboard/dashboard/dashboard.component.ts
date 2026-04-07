@@ -65,7 +65,7 @@ export class DashboardComponent implements OnInit {
   getTransactionsCategory() {
     this.transactionService.getTransactionsByTopCategory(5).subscribe({
       next: (trasanctions) => {
-        setTimeout(() => {          
+        setTimeout(() => {
           if (trasanctions.length === 0) {
             this.transactionsByCaytegory = MOCKS_TRANSACTION_CATEGORY;
             return;
@@ -81,11 +81,11 @@ export class DashboardComponent implements OnInit {
   }
 
   getTransactions() {
-    this.transactionService.getTransactions().subscribe({
+    this.transactionService.getTransactions(this.getCurrentMonthFilter()).subscribe({
       next: (transactions) => {
-        
+
         setTimeout(() => {
-        
+
           if (transactions.length === 0) {
             this.trasanctions = MOCKS_TRANSACTIONS;
             this.setDadaDoughnut(transactions);
@@ -99,11 +99,11 @@ export class DashboardComponent implements OnInit {
           this.trasanctions = transactions;
           this.setDadaDoughnut(transactions);
           this.data.datasets[0].data = [...this.dataDoughnut];
-          
+
           // atualiza o gráfico
           if (this.chart && this.chart.chart) this.chart.chart.update();
         }, 750);
-        
+
       },
       error: (err) => {
         console.error(err)
@@ -119,7 +119,7 @@ export class DashboardComponent implements OnInit {
     if (transactions.length === 0) {
       this.dataDoughnut = [33, 33, 33];
       return;
-      
+
     }
     this.dataDoughnut = [
       transactions.filter(t => t.type === TransactionType.DEPOSIT).reduce((sum, t) => sum + t.amount, 0),
@@ -131,7 +131,7 @@ export class DashboardComponent implements OnInit {
   getBalance() {
     this.transactionService.getTransactionBalance().subscribe({
       next: (balace) => {
-        
+
         setTimeout(() => {
           this.balance.balance = balace.balance;
           this.loadingBalance.balance = 1;
@@ -168,7 +168,7 @@ export class DashboardComponent implements OnInit {
         return 'info';
     }
   }
-  
+
   getIcons(paymentMethod: TransactionPaymentMethod): string {
     const transactionPaymentMethod = PAYMENT_METHOD_OPTIONS.find(method => method.value === paymentMethod);
     return transactionPaymentMethod ? transactionPaymentMethod.icon : '';
@@ -193,13 +193,23 @@ export class DashboardComponent implements OnInit {
   }
 
   private onError(message: string): void{
-    this.messageService.add({ 
-      severity: 'error', 
-      summary: 'Erro no servidor remoto: ', 
-      detail: message.concat('. Tente novamente em instantes ou contate o Administrado do sistema.'), 
-      life: 50000, 
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro no servidor remoto: ',
+      detail: message.concat('. Tente novamente em instantes ou contate o Administrado do sistema.'),
+      life: 50000,
       key: 'error'
     })
   }
 
+  private getCurrentMonthFilter(): any {
+    const now = new Date();
+    const dateProcessStar = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    return {
+      startDate: dateProcessStar.toISOString().split('T')[0],
+      endDate: lastDay.toISOString().split('T')[0]
+    };
+  }
 }

@@ -124,3 +124,9 @@ export const TRANSACTION_CATEGORY = [
     label: 'Outros'
   }
 ]
+
+export const TRANSACTION_TYPE_PAYMENT = [
+  { label: 'Único', value: 'UNICO' },
+  { label: 'Recorrente', value: 'RECORRENTE' },
+  { label: 'Parcelado', value: 'PARCELADO' }
+];

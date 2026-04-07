@@ -9,7 +9,6 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TransactionsEventService } from '../transactions-event.service';
 
-
 @Component({
   selector: 'app-transactions-list',
   templateUrl: './transactions-list.component.html',
@@ -41,7 +40,7 @@ export class TransactionsListComponent implements OnInit {
   }
 
   private getTransactionService(): void {
-    this.transactionsService.getTransactions().subscribe({
+    this.transactionsService.getTransactions(this.getCurrentMonthFilter()).subscribe({
       next: (trasanctions) => {
           this;this.loadingTransactions = false
           this.transactions = trasanctions
@@ -88,7 +87,7 @@ export class TransactionsListComponent implements OnInit {
         this.transactionsService.deleteTransaction(transaction.id).subscribe({
           next: () => {
             this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Transação removida com sucesso.', life: 3000 })
-            this.transactionsService.getTransactions().subscribe({
+            this.transactionsService.getTransactions(this.getCurrentMonthFilter()).subscribe({
               next: (trasanctions) => {
                 this.transactions = trasanctions
               },
@@ -141,12 +140,26 @@ export class TransactionsListComponent implements OnInit {
 
   private onError(message: string): void{
     this.messageService.clear('error');
-    this.messageService.add({ 
-      severity: 'error', 
-      summary: 'Erro no servidor remoto: ', 
-      detail: message.concat('. Tente novamente em instantes ou contate o Administrado do sistema.'), 
+    this.messageService.add({
+      severity: 'error',
+      summary: 'Erro no servidor remoto: ',
+      detail: message.concat('. Tente novamente em instantes ou contate o Administrado do sistema.'),
       life: 50000,
       key: 'error'
     })
+  }
+
+  private getCurrentMonthFilter(): any {
+    const now = new Date();
+    const dateProcessStar = new Date(now.getFullYear(), now.getMonth(), 1);
+    const dateProcessEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+    const filter = {
+      dateProcessStar: dateProcessStar.toISOString(),
+      dateProcessEnd: dateProcessEnd.toISOString()
+    };
+
+    console.log(filter)
+    return filter;
   }
 }
