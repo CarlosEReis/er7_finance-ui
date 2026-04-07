@@ -3,3 +3,14 @@
   color: #09090b;
   font-weight: bold;
 }
+
+
+::ng-deep .p-selectbutton .p-button.p-highlight::before {
+  background: rgba(34, 197, 94, 0.16);
+
+}
+
+::ng-deep .p-selectbutton .p-button.p-highlight > .p-button-label {
+  color: #a3e635 !important;
+  font-weight: bold;
+}

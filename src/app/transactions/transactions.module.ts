@@ -22,6 +22,8 @@ import { InvitationModule } from "../invitation/invitation.module";
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToggleButtonModule } from 'primeng/togglebutton';
+import { SelectButtonModule } from 'primeng/selectbutton';
+
 
 @NgModule({
   declarations: [
@@ -29,27 +31,28 @@ import { ToggleButtonModule } from 'primeng/togglebutton';
     TransactionFormComponent
   ],
     imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        TransactionsRoutingModule,
-        AvatarModule,
-        ButtonModule,
-        TableModule,
-        TagModule,
-        TooltipModule,
-        DialogModule,
-        InputNumberModule,
-        DropdownModule,
-        CalendarModule,
-        ConfirmDialogModule,
-        InputTextModule,
-        SkeletonModule,
-        InvitationModule,
-        FloatLabelModule,
-        InputTextareaModule,
-        ToggleButtonModule
-
+      CommonModule,
+      FormsModule,
+      ReactiveFormsModule,
+      TransactionsRoutingModule,
+      AvatarModule,
+      ButtonModule,
+      TableModule,
+      TagModule,
+      TooltipModule,
+      DialogModule,
+      InputNumberModule,
+      DropdownModule,
+      CalendarModule,
+      ConfirmDialogModule,
+      InputTextModule,
+      SkeletonModule,
+      InvitationModule,
+      FloatLabelModule,
+      InputTextareaModule,
+      ToggleButtonModule,
+      SelectButtonModule,
+      InputTextModule,
     ],
   exports: [
     TransactionsListComponent

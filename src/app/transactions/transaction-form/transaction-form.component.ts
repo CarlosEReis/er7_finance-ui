@@ -6,7 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Transaction } from '../../model/transaction.model';
 import { TransactionsEventService } from '../transactions-event.service';
 import { TransactionType } from '../../model/transaction-type.enum';
-import { PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY } from '../../model/ui.constants';
+import {PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY, TRANSACTION_TYPE_PAYMENT} from '../../model/ui.constants';
 
 @Component({
   selector: 'app-transaction-form',
@@ -16,7 +16,6 @@ import { PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY } from '../../model/ui.con
 export class TransactionFormComponent implements OnInit {
 
   title!: string;
-  date: Date | undefined;
   isEdit: boolean = false;
   formTrasaction!: FormGroup;
   formGroup!: FormGroup;
@@ -24,6 +23,7 @@ export class TransactionFormComponent implements OnInit {
   dialogTransactionVisible: boolean = false;
   dialogGroupVisible: boolean = false;
   selectedTransactionType!: { name: string; color: 'success' | 'danger' | 'info' | 'secondary' | 'warning' | 'contrast' | undefined; icon: string };
+  tipoDespesaOptions = TRANSACTION_TYPE_PAYMENT;
 
   constructor(
     private router: Router,
@@ -56,17 +56,19 @@ export class TransactionFormComponent implements OnInit {
       name: ['', Validators.required],
       type: ['', Validators.required],
       amount: [0, [Validators.required, Validators.min(1)]],
+      totalAmount: [0],
       category: this.formBuilder.group({
         id: ['', Validators.required],
       }),
       paymentMethod: this.formBuilder.group({
         id: ['', Validators.required],
       }),
-      date: [this.date, Validators.required],
+      date: [null, Validators.required],
       group: this.formBuilder.group({
-        id: ['', Validators.required]
+        id: [null, Validators.required]
       }),
-      recurring: [false, Validators.required],
+      paymentType: ['UNICO', Validators.required],
+      numberParcels: [0, Validators.required]
     });
   }
 
@@ -116,6 +118,14 @@ export class TransactionFormComponent implements OnInit {
         this.title = 'Adicionando um Investimento';
         break;
     }
+  }
+
+  atualizarValorParcela() {
+    const valorTotal = this.formTrasaction.get('totalAmount')?.value;
+    const qtdeParcela = this.formTrasaction.get('numberParcels')?.value;
+    var valorParcela = valorTotal / qtdeParcela;
+    this.formTrasaction.get('amount')?.setValue(valorParcela);
+    this.formTrasaction.get('numberParcels')?.setValue(qtdeParcela);
   }
 
   createGroup() {
@@ -181,8 +191,10 @@ export class TransactionFormComponent implements OnInit {
     this.transactionsService.getTransactionById(id)
     .subscribe({
       next: (transaction: Transaction) => {
-        this.formTrasaction.patchValue(transaction)
-        this.date = new Date(transaction.date)
+        this.formTrasaction.patchValue({
+          ...transaction,
+          date: transaction.date ? new Date(transaction.date) : null
+        })
       },
       error: (error) => {
         console.error(error);
@@ -207,4 +219,3 @@ export class TransactionFormComponent implements OnInit {
 
 
 }
-
