@@ -15,6 +15,7 @@ import {PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY, TRANSACTION_TYPE_PAYMENT} 
 })
 export class TransactionFormComponent implements OnInit {
 
+  today = new Date();
   title!: string;
   isEdit: boolean = false;
   formTrasaction!: FormGroup;
@@ -24,6 +25,7 @@ export class TransactionFormComponent implements OnInit {
   dialogGroupVisible: boolean = false;
   selectedTransactionType!: { name: string; color: 'success' | 'danger' | 'info' | 'secondary' | 'warning' | 'contrast' | undefined; icon: string };
   tipoDespesaOptions = TRANSACTION_TYPE_PAYMENT;
+  optionsStatusPagto = [{ label: 'Pago', value: 'PAGO' }, { label: 'A Pagar', value: 'PAGAR' }]
 
   constructor(
     private router: Router,
@@ -68,7 +70,8 @@ export class TransactionFormComponent implements OnInit {
         id: [null, Validators.required]
       }),
       paymentType: ['UNICO', Validators.required],
-      numberParcels: [0, Validators.required]
+      numberParcels: [1, Validators.required],
+      statusPayment: ['PAGAR', Validators.required],
     });
   }
 
@@ -218,4 +221,5 @@ export class TransactionFormComponent implements OnInit {
   }
 
 
+  protected readonly Date = Date;
 }

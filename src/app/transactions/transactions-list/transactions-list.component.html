@@ -17,6 +17,8 @@
       <ng-template pTemplate="header">
         <tr>
           <th>Nome</th>
+          <th>Valor</th>
+          <th>Pago?</th>
           <th>Emissor</th>
           <th>Grupo</th>
           <th>Tipo</th>
@@ -24,13 +26,13 @@
           <th>Método</th>
           <th>Dt. Process</th>
           <th>Dt. Criação</th>
-          <th>Valor</th>
           <th class="text-right">Ações</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-transaction>
 
         <tr *ngIf="loadingTransactions">
+          <td width="40%"><p-skeleton height="2.5rem"/></td>
           <td width="40%"><p-skeleton height="2.5rem"/></td>
           <td width="40%"><p-skeleton height="2.5rem"/></td>
           <td width="10%"><p-skeleton height="2.5rem"/></td>
@@ -45,6 +47,13 @@
 
         <tr *ngIf="!loadingTransactions">
           <td>{{ transaction.name }}</td>
+          <td>{{ transaction.amount | currency: 'BRL':'symbol':'1.2-2' }}</td>
+          <td>
+            <p-inputSwitch
+              [(ngModel)]="transaction.statusPayment"
+              falseValue="A PAGAR"
+              trueValue="PAGO"
+              (onChange)="updateStatusPayment(transaction.id, transaction.statusPayment)"/>
           <td>
             <p-avatar
               [image]="transaction.picture"
@@ -69,7 +78,6 @@
             </div>
           <td>{{ transaction.dateProcess | date: 'dd/MM/yyyy' }}</td>
           <td>{{ transaction.createdAt | date: 'dd/MM/yyyy' }}</td>
-          <td>{{ transaction.amount | currency: 'BRL':'symbol':'1.2-2' }}</td>
           <td class="text-right" style="width: 9%">
             <p-button size="small" icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
               severity="success" (onClick)="editTransaction(transaction.id)" />

@@ -42,7 +42,7 @@ export class TransactionsListComponent implements OnInit {
   private getTransactionService(): void {
     this.transactionsService.getTransactions(this.getCurrentMonthFilter()).subscribe({
       next: (trasanctions) => {
-          this;this.loadingTransactions = false
+          this.loadingTransactions = false
           this.transactions = trasanctions
         },
         error: (error) => {
@@ -134,6 +134,13 @@ export class TransactionsListComponent implements OnInit {
     }
   }
 
+  updateStatusPayment(id: number, status: 'A PAGAR' | 'PAGO') {
+    if (status === 'A PAGAR')
+      this.paymentOpen(id);
+    else if (status === 'PAGO')
+      this.paymentCloser(id);
+  }
+
   private onSuccess(message: string): void {
     this.messageService.add({ severity: 'success', summary: 'Success', detail: message })
   }
@@ -162,4 +169,23 @@ export class TransactionsListComponent implements OnInit {
     console.log(filter)
     return filter;
   }
+
+  private paymentCloser(id: number) {
+    this.transactionsService.paymentCloser(id).subscribe({
+       next: value => this.messageService.add(
+         { severity: 'success', summary: 'Sucesso', detail: 'Pagamento alterado para \'PAGO\'.', life: 3000 }),
+       error: error => this.messageService.add(
+         { severity: 'error', summary: 'Erro', detail: 'Não foi possível alterar o status do pagamento para \'PAGO\'.', life: 3000 })
+    })
+  }
+
+  private paymentOpen(id: number) {
+    this.transactionsService.paymentOpen(id).subscribe({
+      next: value => this.messageService.add(
+        { severity: 'success', summary: 'Sucesso', detail: 'Pagamento alterado para \'A Pagar\'.', life: 3000 }),
+      error: error => this.messageService.add(
+        { severity: 'error', summary: 'Erro', detail: 'Não foi possível alterar o status do pagamento para \'A Pagar\'.', life: 3000 })
+    });
+  }
+
 }

@@ -22,8 +22,25 @@
                 </div>
 
                 <div class="field">
-                    <label for="tipo-pagamento">Tipo de Pagamento</label>
-                    <p-selectButton formControlName="paymentType" [options]="tipoDespesaOptions" id="tipo-pagamento" optionLabel="label" optionValue="value" />
+                  <div class="flex gap-2">
+                    <div class="flex-2">
+                      <label for="tipo-pagamento">Tipo de Pagamento</label>
+                      <p-selectButton formControlName="paymentType" [options]="tipoDespesaOptions" id="tipo-pagamento" optionLabel="label" optionValue="value" />
+                    </div>
+
+                    @if (formTrasaction.get('type')?.value === 'EXPENSE' && formTrasaction.get('date')?.value < today) {
+                      <div class="flex-1">
+                        <label for="status-pagamento">Status Pagto.</label>
+                        <p-selectButton
+                          formControlName="statusPayment"
+                          [options]="optionsStatusPagto"
+                          id="status-pagamento"
+                          optionLabel="label"
+                          optionValue="value"
+                          [styleClass]="formTrasaction.get('statusPayment')?.value == 'PAGAR' ? 'status-pagamento-apagar' : 'status-pagamento-pago'" />
+                      </div>
+                    }
+                  </div>
                 </div>
 
                 @if (formTrasaction.get('paymentType')?.value === 'PARCELADO') {
@@ -122,7 +139,12 @@
                 </div>
               </div>
 
-            <ng-template pTemplate="footer">
+<!--            <div class="field">-->
+<!--              <label>Formulário (JSON)</label>-->
+<!--              <pre>{{ formTrasaction.value | json }}</pre>-->
+<!--            </div>-->
+
+          <ng-template pTemplate="footer">
                 <p-button label="Cancelar" [outlined]="true"
                     (onClick)="close()" />
                 <p-button label="{{ isEdit ? 'Atualizar': 'Adicioinar' }}" class="btn-primary"

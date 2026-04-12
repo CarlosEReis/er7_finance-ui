@@ -46,6 +46,16 @@ export class TransactionsService {
       return this.http.get<TopCategory[]>(`${this.URL_API}/statistics/total-per-category?top=${top}`).pipe(first())
     }
 
+    paymentCloser(id: number): Observable<void> {
+      const statusPayment = 'PAGO';
+      return this.http.put<void>(`${this.URL_API}/${id}/payment-close`, { statusPayment }).pipe(first());
+    }
+
+    paymentOpen(id: number): Observable<void>{
+      const statusPayment = 'PAGAR';
+      return this.http.put<void>(`${this.URL_API}/${id}/payment-open`, { statusPayment }).pipe(first());
+    }
+
     getTransactionBalance() {
       return (this.http.get<any>(`${this.URL_API}/statistics/balance`)).pipe(first())
     }
