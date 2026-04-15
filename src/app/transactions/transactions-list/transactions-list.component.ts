@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { Transaction } from '../../model/transaction.model';
 import { TransactionsService } from '../transactions.service';
 import { TransactionType } from '../../model/transaction-type.enum';
@@ -6,8 +6,10 @@ import { TransactionPaymentMethod } from '../../model/payment-method.enum';
 import { PAYMENT_METHOD_OPTIONS, TRANSACTION_CATEGORY, TRANSACTION_TYPE_OPTION } from '../../model/ui.constants';
 import { TransactionCategory } from '../../model/transaction-category.enum';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { ActivatedRoute, Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionsEventService } from '../transactions-event.service';
+import {FormControl, FormGroup} from '@angular/forms';
+import {TransactionFilter} from '../TransactionFilter';
 
 @Component({
   selector: 'app-transactions-list',
@@ -15,6 +17,13 @@ import { TransactionsEventService } from '../transactions-event.service';
   styleUrl: './transactions-list.component.css'
 })
 export class TransactionsListComponent implements OnInit {
+
+  public filterForm = new FormGroup({
+    startDate: new FormControl<Date | null>(null),
+    endDate: new FormControl<Date | null>(null),
+    searchTerm: new FormControl<string>(''),
+    status: new FormControl<string>('TODOS')
+  });
 
   loadingTransactions = true;
   transactions: Transaction[] | any[] = Array.from({ length: 13 }).map((_, i) => `Item #${i}`);
@@ -29,6 +38,7 @@ export class TransactionsListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.initFormFilter();
     this.messageService.clear('dahsboard');
     this.getTransactionService();
     this.eventService.createEvent.subscribe((data) => {
@@ -40,15 +50,21 @@ export class TransactionsListComponent implements OnInit {
   }
 
   private getTransactionService(): void {
-    this.transactionsService.getTransactions(this.getCurrentMonthFilter()).subscribe({
+    this.loadingTransactions = true;
+    this.transactionsService.getTransactions(this.buildFilterFromForm()).subscribe({
       next: (trasanctions) => {
           this.loadingTransactions = false
           this.transactions = trasanctions
         },
         error: (error) => {
+          this.loadingTransactions = false
           console.log(error)
           this.onError('Não foi possível carregar as transações.')},
     })
+  }
+
+  applyFilters(): void {
+    this.getTransactionService();
   }
 
   newTransaction() {
@@ -87,7 +103,7 @@ export class TransactionsListComponent implements OnInit {
         this.transactionsService.deleteTransaction(transaction.id).subscribe({
           next: () => {
             this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Transação removida com sucesso.', life: 3000 })
-            this.transactionsService.getTransactions(this.getCurrentMonthFilter()).subscribe({
+            this.transactionsService.getTransactions(this.buildFilterFromForm()).subscribe({
               next: (trasanctions) => {
                 this.transactions = trasanctions
               },
@@ -156,18 +172,15 @@ export class TransactionsListComponent implements OnInit {
     })
   }
 
-  private getCurrentMonthFilter(): any {
-    const now = new Date();
-    const dateProcessStar = new Date(now.getFullYear(), now.getMonth(), 1);
-    const dateProcessEnd = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  private buildFilterFromForm(): TransactionFilter {
+    const { startDate, endDate, searchTerm, status } = this.filterForm.getRawValue();
 
-    const filter = {
-      dateProcessStar: dateProcessStar.toISOString(),
-      dateProcessEnd: dateProcessEnd.toISOString()
+    return {
+      dateProcessStar: startDate?.toISOString(),
+      dateProcessEnd: endDate?.toISOString(),
+      searchTerm: searchTerm?.trim() || undefined,
+      status: status && status !== 'TODOS' ? status : undefined
     };
-
-    console.log(filter)
-    return filter;
   }
 
   private paymentCloser(id: number) {
@@ -187,5 +200,18 @@ export class TransactionsListComponent implements OnInit {
         { severity: 'error', summary: 'Erro', detail: 'Não foi possível alterar o status do pagamento para \'A Pagar\'.', life: 3000 })
     });
   }
+
+  private initFormFilter() {
+    const now = new Date();
+    const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+    const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    this.filterForm.patchValue({
+      startDate: firstDay,
+      endDate: lastDay,
+      searchTerm: '',
+      status: 'TODOS'
+    })
+  }
+
 
 }

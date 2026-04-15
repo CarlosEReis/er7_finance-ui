@@ -22,6 +22,8 @@ export class TransactionsService {
       let params = new HttpParams();
       if (filter.dateProcessStar) params = params.append('dateProcessStar', filter.dateProcessStar);
       if (filter.dateProcessEnd) params = params.append('dateProcessEnd', filter.dateProcessEnd);
+      if (filter.searchTerm) params = params.append('searchTerm', filter.searchTerm);
+      if (filter.status) params = params.append('status', filter.status);
 
       return this.http.get<Transaction[]>(this.URL_API, { params }).pipe(first())
     }

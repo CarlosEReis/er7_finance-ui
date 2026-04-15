@@ -24,6 +24,8 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import {InputSwitchModule} from 'primeng/inputswitch';
+import {InputGroup, InputGroupModule} from 'primeng/inputgroup';
+import {InputGroupAddonModule} from 'primeng/inputgroupaddon';
 
 
 @NgModule({
@@ -55,6 +57,8 @@ import {InputSwitchModule} from 'primeng/inputswitch';
     SelectButtonModule,
     InputTextModule,
     InputSwitchModule,
+    InputGroupModule,
+    InputGroupAddonModule
   ],
   exports: [
     TransactionsListComponent

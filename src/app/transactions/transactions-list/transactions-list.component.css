@@ -1,0 +1,27 @@
+:host ::ng-deep .filter-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  overflow-x: auto;
+}
+
+:host ::ng-deep .search-field {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+:host ::ng-deep .search-field .p-inputtext {
+  width: 24rem;
+}
+
+:host ::ng-deep .date-field {
+  flex: 0 0 12rem;
+  min-width: 12rem;
+}
+
+:host ::ng-deep .date-field .p-datepicker,
+:host ::ng-deep .date-field .p-inputtext {
+  width: 100%;
+  color: #a1a1aa
+}

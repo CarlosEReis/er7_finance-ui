@@ -78,3 +78,18 @@ li.p-element:nth-child(3) > a:nth-child(1) {
 hr {
   margin: 4rem 0;
 }
+
+/* styles.scss (global) ou com ::ng-deep no componente */
+.calendar-outline .p-datepicker-trigger.p-button {
+  background: transparent;
+  color: var(--primary-color);
+  border: 1px solid;
+  border-color: rgba(163, 230, 53, 0.44);
+  min-width: 2.9rem;
+  width: 2.9rem;
+  padding: 0;
+}
+
+.calendar-outline .p-datepicker-trigger.p-button:hover {
+  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}

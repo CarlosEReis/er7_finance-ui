@@ -5,9 +5,36 @@
     </div>
     <div class="flex align-items-center justify-content-center m-2">
 
-        <app-invitation-form></app-invitation-form>
+        <div [formGroup]="filterForm" class="filter-row">
 
-        <p-button label="Adicionar" icon="pi pi-sort-alt" iconPos="right" (onClick)="newTransaction()"></p-button>
+          <p-inputGroup styleClass="search-field">
+            <input type="text" pInputText formControlName="searchTerm" placeholder="Pesquise pelo nome da transação"/>
+            <button type="button" pButton icon="pi pi-search" outlined="true"></button>
+          </p-inputGroup>
+
+          <p-calendar
+            styleClass="calendar-outline date-field"
+            variant="outlined"
+            formControlName="startDate"
+            [showIcon]="true"
+            [showOnFocus]="false"
+            appendTo="body"
+            inputId="buttondisplay" />
+
+          <p-calendar
+            styleClass="calendar-outline date-field"
+            formControlName="endDate"
+            [showIcon]="true"
+            [showOnFocus]="false"
+            appendTo="body"
+            inputId="buttondisplay" />
+
+          <p-button label="Filtrar" icon="pi pi-filter" iconPos="right" outlined (onClick)="applyFilters()"></p-button>
+          <app-invitation-form></app-invitation-form>
+
+          <p-button label="Adicionar" icon="pi pi-sort-alt" iconPos="right" (onClick)="newTransaction()"></p-button>
+        </div>
+
     </div>
   </div>
 
@@ -115,4 +142,3 @@
     </div>
   </ng-template>
 </p-confirmDialog>
-
