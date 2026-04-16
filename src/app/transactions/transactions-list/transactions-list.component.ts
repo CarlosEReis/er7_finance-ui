@@ -21,7 +21,7 @@ export class TransactionsListComponent implements OnInit {
   public filterForm = new FormGroup({
     startDate: new FormControl<Date | null>(null),
     endDate: new FormControl<Date | null>(null),
-    searchTerm: new FormControl<string>(''),
+    searchTitle: new FormControl<string>(''),
     status: new FormControl<string>('TODOS')
   });
 
@@ -173,12 +173,12 @@ export class TransactionsListComponent implements OnInit {
   }
 
   private buildFilterFromForm(): TransactionFilter {
-    const { startDate, endDate, searchTerm, status } = this.filterForm.getRawValue();
+    const { startDate, endDate, searchTitle, status } = this.filterForm.getRawValue();
 
     return {
       dateProcessStar: startDate?.toISOString(),
       dateProcessEnd: endDate?.toISOString(),
-      searchTerm: searchTerm?.trim() || undefined,
+      searchTitle: searchTitle?.trim() || undefined,
       status: status && status !== 'TODOS' ? status : undefined
     };
   }
@@ -208,7 +208,7 @@ export class TransactionsListComponent implements OnInit {
     this.filterForm.patchValue({
       startDate: firstDay,
       endDate: lastDay,
-      searchTerm: '',
+      searchTitle: '',
       status: 'TODOS'
     })
   }

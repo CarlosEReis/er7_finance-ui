@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { TransactionType } from '../model/transaction-type.enum';
 import { Transaction } from '../model/transaction.model';
-import { first, Observable, of, take, tap } from 'rxjs';
+import {delay, first, Observable} from 'rxjs';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { TopCategory } from '../model/top-category.model';
@@ -22,7 +21,7 @@ export class TransactionsService {
       let params = new HttpParams();
       if (filter.dateProcessStar) params = params.append('dateProcessStar', filter.dateProcessStar);
       if (filter.dateProcessEnd) params = params.append('dateProcessEnd', filter.dateProcessEnd);
-      if (filter.searchTerm) params = params.append('searchTerm', filter.searchTerm);
+      if (filter.searchTitle) params = params.append('searchTitle', filter.searchTitle);
       if (filter.status) params = params.append('status', filter.status);
 
       return this.http.get<Transaction[]>(this.URL_API, { params }).pipe(first())
@@ -45,7 +44,7 @@ export class TransactionsService {
     }
 
     getTransactionsByTopCategory(top: number): Observable<TopCategory[]> {
-      return this.http.get<TopCategory[]>(`${this.URL_API}/statistics/total-per-category?top=${top}`).pipe(first())
+      return this.http.get<TopCategory[]>(`${this.URL_API}/statistics/total-per-category?top=${top}`).pipe(delay(500))
     }
 
     paymentCloser(id: number): Observable<void> {

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-import { ConfirmationService, MenuItem, Message, MessageService } from 'primeng/api';
+import {ConfirmationService, MenuItem, Message, MessageService, PrimeNGConfig} from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -18,14 +18,32 @@ export class AppComponent {
   activeItem: MenuItem = [];
   messages: Message[] = [];
 
+
   constructor(
     public auth: AuthService,
-    private router: Router) {}
+    private router: Router,
+    private config: PrimeNGConfig) {}
 
   ngOnInit(): void {
     this.menuItens = this.getMenuItens();
     this.activeItem = this.menuItens[0];
     this.menuProfile = this.getMenuProfile();
+    this.config.setTranslation({
+      // Nomes dos dias
+      dayNames: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
+      dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"],
+      dayNamesMin: ["D", "S", "T", "Q", "Q", "S", "S"],
+
+      // Nomes dos meses
+      monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+      monthNamesShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
+
+      // Botões e formatos
+      today: 'Hoje',
+      clear: 'Limpar',
+      dateFormat: 'dd/mm/yy', // Formato brasileiro
+      firstDayOfWeek: 0       // 0 para Domingo, 1 para Segunda
+    });
   }
 
   getMenuItens() {
@@ -40,7 +58,7 @@ export class AppComponent {
   logout() {
     this.auth.logout();
   }
-  
+
   onActiveItemChange(event: MenuItem) {
     this.activeItem = event;
   }

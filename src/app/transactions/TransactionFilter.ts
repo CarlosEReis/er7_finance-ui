@@ -1,6 +1,6 @@
 export interface TransactionFilter {
   dateProcessStar?: string;
   dateProcessEnd?: string;
-  searchTerm?: string;
+  searchTitle?: string;
   status?: string;
 }
