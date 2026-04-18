@@ -5,13 +5,24 @@
       <div class="grid">
 
         <p-skeleton *ngIf="!loadingBalance.balance" class="col-12" [style]="{'border-radius': '0 1rem 1rem 0'}" id="saldo" width="100%" height="234px" />
-        <p-card *ngIf="loadingBalance.balance" class="col-12 border-round-sm fadein animation-duration-1000" id="saldo"> 
+        <p-card *ngIf="loadingBalance.balance" class="col-12 border-round-sm fadein animation-duration-1000" id="saldo">
           <div class="grid grid-nogutter surface-section text-800">
             <div class="col-12 md:col-6 p-6 text-center md:text-left flex align-items-center bg-primary">
               <section>
-                <span class="block text-3xl font-bold mb-1">Saldo</span>
+
+                <div class="card flex justify-content-between flex-wrap">
+                  <span class="block text-3xl font-bold mb-1">Saldo</span>
+
+                  <p-selectButton
+                    [(ngModel)]="temporalSize"
+                    [options]="temporalSizetypes"
+                    optionLabel="name"
+                    optionValue="value"
+                    (onChange)="dateRangeFilter($event.value)"/>
+                </div>
+
                 <div class="text-7xl font-bold mb-2" [ngClass]="balance.balance < 0 ? 'text-red-500' : 'text-black-alpha-90'">{{ balance.balance | currency: 'BRL':'symbol':'1.2-2'  }}</div>
-                <p class="my-0 line-height-3 text-gray-800">O controle financeiro é a chave para conquistar seus objetivos e alcançar a 
+                <p class="my-0 line-height-3 text-gray-800">O controle financeiro é a chave para conquistar seus objetivos e alcançar a
                   liberdade financeira e construa um futuro de sucesso e prosperidade.</p>
               </section>
             </div>
@@ -35,7 +46,7 @@
           <p-skeleton *ngIf="!loadingBalance.expense" [style]="{'border-radius': '0 1rem 1rem 0'}" width="100%" height="152px" />
            <app-kpi-card *ngIf="loadingBalance.expense" class="fadein animation-duration-1000" [valor]="balance.expense" [porcentagem]="1" [transactionType]="TransactionType.EXPENSE"></app-kpi-card>
         </div>
-        
+
         <p-skeleton *ngIf="!trasanctions" class="col-6 border-round-sm" id="saldo" width="100%" height="476px" />
         <div *ngIf="trasanctions" class="col-6 h-full h-28rem" ngClass="{{ hasData ? 'opacity-100' : 'opacity-30' }}">
           <div class="text-center border-round-sm font-bold h-full">
@@ -51,7 +62,7 @@
                         class="w-2rem h-2rem font-bold p-tag p-tag-info flex align-items-center justify-content-center p-2 border-round ">
                         <i class="pi pi-chart-line p-2" style="font-size: 1.2rem"></i>
                       </div>
-                      <p class="flex align-items-center justify-content-center border-round pt-2"> 
+                      <p class="flex align-items-center justify-content-center border-round pt-2">
                         {{ ( balance.investment / (balance.deposit + balance.expense + balance.investment)) | percent : '1.1'}}
                       </p>
                     </div>
@@ -98,10 +109,10 @@
                         <p class="text-sm font-bold mb-1">{{ category.total | currency: 'BRL':'symbol':'1.2-2' }}</p>
                       </div>
                       <div>
-                      <p-progressBar value="{{ category.percent }}" />  
+                      <p-progressBar value="{{ category.percent }}" />
                       </div>
                     </li>
-                  
+
                   </ul>
 
                 </div>
@@ -116,10 +127,10 @@
 
     <p-skeleton *ngIf="!trasanctions" class="col-4 border-round-sm" id="saldo" width="100%" height="890px" />
     <div class="col-4" ngClass="{{ hasData ? 'opacity-100' : 'opacity-30' }}">
-      
+
       <div *ngIf="trasanctions" class="text-center  border-round-sm h-full font-bold fadein animation-duration-1000">
 
-        <p-card class="card h-full" header="Últimas transações">  
+        <p-card class="card h-full" header="Últimas transações">
 
           <div class="flex align-items-center justify-content-center m-2">
           <app-invitation-form></app-invitation-form>

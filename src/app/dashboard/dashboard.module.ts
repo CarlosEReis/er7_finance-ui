@@ -12,6 +12,8 @@ import { KpiCardComponent } from './kpi-card/kpi-card.component';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
 import { InvitationModule } from "../invitation/invitation.module";
+import {SelectButtonModule} from 'primeng/selectbutton';
+import {FormsModule, NgForm} from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,7 @@ import { InvitationModule } from "../invitation/invitation.module";
   imports: [
     CommonModule,
     DashboardRoutingModule,
+    FormsModule,
 
     CardModule,
     TooltipModule,
@@ -28,7 +31,8 @@ import { InvitationModule } from "../invitation/invitation.module";
     ChartModule,
     ButtonModule,
     SkeletonModule,
-    InvitationModule
+    InvitationModule,
+    SelectButtonModule
   ],
   exports: [
     DashboardComponent

@@ -173,12 +173,12 @@ export class TransactionsListComponent implements OnInit {
   }
 
   private buildFilterFromForm(): TransactionFilter {
-    const { startDate, endDate, searchTitle, status } = this.filterForm.getRawValue();
+    const status = this.filterForm.get('status')?.value
 
     return {
-      dateProcessStar: startDate?.toISOString(),
-      dateProcessEnd: endDate?.toISOString(),
-      searchTitle: searchTitle?.trim() || undefined,
+      dateProcessStar: this.filterForm.get('startDate')?.value,
+      dateProcessEnd: this.filterForm.get('endDate')?.value,
+      searchTitle: this.filterForm.get('searchTitle')?.value || undefined,
       status: status && status !== 'TODOS' ? status : undefined
     };
   }

@@ -8,6 +8,8 @@ import { MOCKS_TRANSACTION_CATEGORY, MOCKS_TRANSACTIONS } from '../../model/mock
 import { TransactionCategory } from '../../model/transaction-category.enum';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import {TransactionFilter} from '../../transactions/TransactionFilter';
+import {Breadcrumb} from 'primeng/breadcrumb';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +17,20 @@ import { Router } from '@angular/router';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent implements OnInit {
+
+  protected filterTransaction: TransactionFilter = {
+    dateProcessStar: new Date(),
+    dateProcessEnd: new Date()
+  };
+
+  value!: number;
+  temporalSize = 'MES'
+  temporalSizetypes: any[] = [
+    { name: 'Mês', value: 'MES' },
+    { name: 'Sem.', value: 'SEMESTRE' },
+    { name: 'YTD', value: 'YTD' },
+    { name: 'Ano', value: 'ANO' }
+  ];
 
   hasData = false;
   loadingBalance = { deposit: 0, expense: 0, investment: 0, balance: 0 };
@@ -38,9 +54,7 @@ export class DashboardComponent implements OnInit {
     this.messageService.clear('dashboard');
     const documentStyle = getComputedStyle(document.documentElement);
 
-    this.getBalance();
-    this.getTransactions();
-    this.getTransactionsCategory();
+    this.dateRangeFilter('MES');
 
     this.options = {
       cutout: '60%',
@@ -62,8 +76,21 @@ export class DashboardComponent implements OnInit {
     };
   }
 
+  protected onTemporalSizeChange(value: any) {
+    this.hasData = false;
+    this.loadingBalance = { deposit: 0, expense: 0, investment: 0, balance: 0 };
+    this.balance = { deposit: -1, expense: -1, investment: -1, balance: -1 };
+    //this.transactionType = [];
+    this.transactionsByCaytegory = [];
+    this.trasanctions = [];
+    this.dataDoughnut = [0, 0, 0];
+
+   const option = (typeof value === 'string' ? value : value?.value) as 'MES' | 'SEMESTRE' | 'YTD' | undefined;
+   this.dateRangeFilter(option ?? 'MES');
+  }
+
   getTransactionsCategory() {
-    this.transactionService.getTransactionsByTopCategory(5).subscribe({
+    this.transactionService.getTransactionsByTopCategory(this.filterTransaction, 5).subscribe({
       next: (trasanctions) => {
         setTimeout(() => {
           if (trasanctions.length === 0) {
@@ -81,7 +108,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getTransactions() {
-    this.transactionService.getTransactions(this.getCurrentMonthFilter()).subscribe({
+    this.transactionService.getTransactions(this.filterTransaction).subscribe({
       next: (transactions) => {
 
         setTimeout(() => {
@@ -111,6 +138,46 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  protected dateRangeFilter(option: 'MES' | 'SEMESTRE' | 'YTD' | 'ANO') {
+    const now = new Date();
+    let startDate: Date;
+    let endDate = now;
+
+    switch (option) {
+      case 'MES':
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        endDate = this.calcLastDay('MES')
+        break;
+      case 'SEMESTRE':
+        const semestre = now.getMonth() < 6 ? 0 : 6;
+        startDate = new Date(now.getFullYear(), semestre, 1);
+        break;
+      case 'YTD':
+        startDate = new Date(now.getFullYear(), 0, 1)
+        break;
+      case 'ANO':
+        startDate = new Date(now.getFullYear(), 0, 1)
+        break;
+    }
+    endDate = this.calcLastDay(option)
+    this.filterTransaction = {
+      dateProcessStar: startDate,
+      dateProcessEnd: endDate
+    };
+
+    console.log('===', option)
+    console.log('======', startDate)
+    console.log('===================', this.filterTransaction)
+    this.carregarDados()
+
+  }
+
+  private carregarDados() {
+    this.getBalance();
+    this.getTransactions();
+    this.getTransactionsCategory();
+  }
+
   private transactionsVerify() {
     this.trasanctions.length === 0 ? this.hasData = false : this.hasData = true;
   }
@@ -129,7 +196,7 @@ export class DashboardComponent implements OnInit {
   }
 
   getBalance() {
-    this.transactionService.getTransactionBalance().subscribe({
+    this.transactionService.getTransactionBalance(this.filterTransaction).subscribe({
       next: (balace) => {
 
         setTimeout(() => {
@@ -207,9 +274,40 @@ export class DashboardComponent implements OnInit {
     const dateProcessStar = new Date(now.getFullYear(), now.getMonth(), 1);
     const lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
 
+    console.log({
+      startDate: dateProcessStar.toISOString().split('T')[0],
+      endDate: lastDay.toISOString().split('T')[0]
+    });
+
     return {
       startDate: dateProcessStar.toISOString().split('T')[0],
       endDate: lastDay.toISOString().split('T')[0]
     };
   }
+
+  private calcLastDay(filterType: 'MES' | 'SEMESTRE' | 'YTD' | 'ANO'): Date {
+    const now = new Date();
+    let lastDay: Date;
+
+    switch (filterType) {
+      case 'MES':
+        lastDay = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        break;
+      case 'SEMESTRE': {
+        const endMonth = now.getMonth() < 6 ? 6 : 12;
+        lastDay = new Date(now.getFullYear(), endMonth, 0);
+        break;
+      }
+      case 'ANO': {
+        lastDay = new Date(now.getFullYear()+1, 0, 0);
+        break;
+      }
+      default:
+        lastDay = now;
+        break;
+    }
+
+    return lastDay;
+  }
+
 }

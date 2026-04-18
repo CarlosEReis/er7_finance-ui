@@ -1,0 +1,14 @@
+::ng-deep .p-selectbutton .p-button {
+  background: #8ec631;
+  color: #2f4015;
+  border: #8bd41394;
+}
+::ng-deep .p-selectbutton .p-button.p-highlight::before {
+  background: rgba(0, 0, 0, 0.83)
+
+}
+
+::ng-deep .p-selectbutton .p-button.p-highlight > .p-button-label {
+  color: #a3e635 !important;
+  font-weight: bold;
+}

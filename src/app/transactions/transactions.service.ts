@@ -5,6 +5,7 @@ import {HttpClient, HttpParams} from '@angular/common/http';
 import { environment } from '../../environments/environment.development';
 import { TopCategory } from '../model/top-category.model';
 import {TransactionFilter} from './TransactionFilter';
+import {FilterTransactions} from './transactions-list/filter-transactions';
 
 @Injectable({
   providedIn: 'root'
@@ -18,12 +19,7 @@ export class TransactionsService {
   constructor(private http: HttpClient ) { }
 
     getTransactions(filter: TransactionFilter): Observable<Transaction[]> {
-      let params = new HttpParams();
-      if (filter.dateProcessStar) params = params.append('dateProcessStar', filter.dateProcessStar);
-      if (filter.dateProcessEnd) params = params.append('dateProcessEnd', filter.dateProcessEnd);
-      if (filter.searchTitle) params = params.append('searchTitle', filter.searchTitle);
-      if (filter.status) params = params.append('status', filter.status);
-
+      const params = this.buildParams(filter);
       return this.http.get<Transaction[]>(this.URL_API, { params }).pipe(first())
     }
 
@@ -43,8 +39,9 @@ export class TransactionsService {
       return this.http.delete<Transaction>(`${this.URL_API}/${id}`).pipe(first())
     }
 
-    getTransactionsByTopCategory(top: number): Observable<TopCategory[]> {
-      return this.http.get<TopCategory[]>(`${this.URL_API}/statistics/total-per-category?top=${top}`).pipe(delay(500))
+    getTransactionsByTopCategory(filter: TransactionFilter, top: number): Observable<TopCategory[]> {
+      const params = this.buildParams(filter);
+      return this.http.get<TopCategory[]>(`${this.URL_API}/statistics/total-per-category?top=${top}`, { params }).pipe(delay(500))
     }
 
     paymentCloser(id: number): Observable<void> {
@@ -57,8 +54,9 @@ export class TransactionsService {
       return this.http.put<void>(`${this.URL_API}/${id}/payment-open`, { statusPayment }).pipe(first());
     }
 
-    getTransactionBalance() {
-      return (this.http.get<any>(`${this.URL_API}/statistics/balance`)).pipe(first())
+    getTransactionBalance(filter: TransactionFilter) {
+      const params = this.buildParams(filter);
+      return (this.http.get<any>(`${this.URL_API}/statistics/balance`, { params })).pipe(first())
     }
 
     cancelPlan() {
@@ -71,6 +69,15 @@ export class TransactionsService {
 
     createGroup(group: any) {
       return this.http.post<any>(`${this.URL_API_BASE}v1/groups`, group).pipe(first())
+    }
+
+    private buildParams(filter: TransactionFilter) : HttpParams {
+      let params = new HttpParams();
+      if (filter.dateProcessStar) params = params.append('dateProcessStar', filter.dateProcessStar.toISOString());
+      if (filter.dateProcessEnd) params = params.append('dateProcessEnd', filter.dateProcessEnd.toISOString());
+      if (filter.searchTitle) params = params.append('searchTitle', filter.searchTitle);
+      if (filter.status) params = params.append('status', filter.status);
+      return params;
     }
 
 }
