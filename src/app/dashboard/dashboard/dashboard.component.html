@@ -22,8 +22,8 @@
                 </div>
 
                 <div class="text-7xl font-bold mb-2" [ngClass]="balance.balance < 0 ? 'text-red-500' : 'text-black-alpha-90'">{{ balance.balance | currency: 'BRL':'symbol':'1.2-2'  }}</div>
-                <p class="my-0 line-height-3 text-gray-800">O controle financeiro é a chave para conquistar seus objetivos e alcançar a
-                  liberdade financeira e construa um futuro de sucesso e prosperidade.</p>
+                <span class="font-bold">{{ filterTransaction.dateProcessStar | date: 'dd/MM/yyyy' }}</span> até <span class="font-bold">{{ filterTransaction.dateProcessEnd | date: 'dd/MM/yyyy' }}</span>
+                <p class="my-0 line-height-3 text-gray-800">Controle suas finanças, conquiste sua liberdade e construa o futuro que você merece.</p>
               </section>
             </div>
             <div class="col-12 md:col-6 overflow-hidden border-round-right-2xl bg-primary">
@@ -175,5 +175,3 @@
   </div>
 
 </div>
-
-<app-invitation-form></app-invitation-form>

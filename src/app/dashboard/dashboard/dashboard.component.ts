@@ -299,7 +299,7 @@ export class DashboardComponent implements OnInit {
         break;
       }
       case 'ANO': {
-        lastDay = new Date(now.getFullYear()+1, 0, 0);
+        lastDay = new Date(now.getFullYear() + 1, 0, 0);
         break;
       }
       default:
